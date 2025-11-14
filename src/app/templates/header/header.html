@@ -1,0 +1,38 @@
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark main-navbar shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" routerLink="/">
+        <img src="img/logo.png" alt="UTP" class="logo-small"
+          onerror="this.onerror=null; this.src='https://picsum.photos/60/60?random=99'">
+        <div class="ms-2 brand-block">
+          <div class="brand-title">UTP</div>
+          <div class="brand-sub">Biblioteca Virtual</div>
+        </div>
+      </a>
+
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="acerca-de">Acerca de</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="catalogo">Catálogo</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="contacto">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="colecciones">Colecciones nuevas</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
+
+          <li class="nav-item ms-3" id="nav-auth">
+            <a class="btn btn-outline-light me-2" routerLink="login"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a>
+            <a class="btn btn-gold" routerLink="registro"><i class="fa-solid fa-user-plus"></i> Regístrate</a>
+          </li>
+
+          <li class="nav-item d-none" id="nav-welcome">
+            <span class="nav-link welcome-text" id="welcomeText"></span>
+            <button class="btn btn-outline-light btn-sm ms-2" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
