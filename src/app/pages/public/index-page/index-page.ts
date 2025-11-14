@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CategoriasService } from '../../../services/publico/categorias-service';
 import { EventosService } from '../../../services/publico/eventos-service';
@@ -12,7 +12,8 @@ import { DatePipe } from '@angular/common';
   imports: [RouterLink, DatePipe],
   templateUrl: './index-page.html',
   styleUrl: './index-page.scss',
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IndexPage implements OnInit {
 
@@ -29,6 +30,7 @@ export class IndexPage implements OnInit {
   Date = Date;
 
   constructor(
+    private changeDetector: ChangeDetectorRef,
     private categoriaService: CategoriasService,
     private eventosService: EventosService
   ){
@@ -38,17 +40,19 @@ export class IndexPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoriaService.lista().subscribe(res => {
+    const self = this;
+    self.categoriaService.lista().subscribe(res => {
       console.log("Categorias", res);
-      this.categorias = res;
-      this.cargandoCategorias = false;
+      self.categorias = res;
+      self.cargandoCategorias = false;
+      self.changeDetector.detectChanges(); // Parche para hacer que se actualize la plantilla en localhost
     });
-    this.eventosService.lista().subscribe(res => {
+    self.eventosService.lista().subscribe(res => {
       console.log("Eventos", res);
-      this.eventos = res;
-      this.cargandoEventos = false;
+      self.eventos = res;
+      self.cargandoEventos = false;
+      self.changeDetector.detectChanges();
     });
+
   }
-
-
 }
