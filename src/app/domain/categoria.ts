@@ -4,4 +4,7 @@ export interface Categoria {
     nombre: string;
     categoriaPadre?: Categoria;
     imagen: string;
+    slug: string;
+    color: string;
+    icono: string;
 }

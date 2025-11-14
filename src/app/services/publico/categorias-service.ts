@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoriasService {
-  private base = BASE_URL + '/publico/libros';
+  private base = BASE_URL + 'publico/categorias';
 
   constructor(private http: HttpClient){
   }

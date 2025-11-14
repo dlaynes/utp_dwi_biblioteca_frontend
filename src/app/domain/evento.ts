@@ -4,5 +4,6 @@ export interface Evento {
     id: number;
     fechaRegistro: string;
     titulo: string;
-    tipoEvento: TipoEvento
+    tipoEvento: TipoEvento;
+    fechaEvento: string|null;
 }

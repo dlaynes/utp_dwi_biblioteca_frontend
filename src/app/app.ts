@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, LOCALE_ID, signal } from '@angular/core';
 import { Layout } from "./templates/layout/layout";
 
 @Component({

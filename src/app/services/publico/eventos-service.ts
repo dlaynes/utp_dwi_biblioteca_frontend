@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EventosService {
-    private base = BASE_URL + '/publico/eventos';
+    private base = BASE_URL + 'publico/eventos';
 
   constructor(private http: HttpClient){
   }
