@@ -23,7 +23,7 @@ export type RecibirPrestamoRequest = {
   providedIn: 'root'
 })
 export class PrestamosService {
-  private base = BASE_URL + '/cliente/prestamos';
+  private base = BASE_URL + 'cliente/prestamos';
 
   constructor(private http: HttpClient){
   }

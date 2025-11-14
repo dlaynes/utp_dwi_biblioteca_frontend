@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AutoresService {
-  private base = BASE_URL + '/bibliotecario/autores';
+  private base = BASE_URL + 'bibliotecario/autores';
 
   constructor(private http: HttpClient){
   }

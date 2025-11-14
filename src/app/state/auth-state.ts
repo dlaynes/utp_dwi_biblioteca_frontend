@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { RolKey } from '../domain/rol';
+import { Usuario } from '../domain/usuario';
 
 const TOKEN_KEY = "biblioteca-token";
 
@@ -18,6 +19,12 @@ export class AuthState {
 
   readonly roles = signal<RolKey[]>([]);
 
+  readonly user = signal<Usuario|null>(null);
+
+  setUsuario(usuario: Usuario){
+    this.user.set(usuario);
+  }
+
   setToken(token: string){
     this.token.set(token);
   }
@@ -34,16 +41,20 @@ export class AuthState {
     this.roles.set([]);
   }
 
-  esAdmin(){
-    return this.roles().includes("ROLE_ADMIN");
+  resetUsuario(){
+    this.user.set(null);
   }
 
-  esBibliotecario(){
-    return this.roles().includes("ROLE_BIBLIOTECARIO");
+  esAdmin(roles=this.roles()){
+    return roles.includes("ROLE_ADMIN");
   }
 
-  esCliente(){
-    return this.roles().includes("ROLE_CLIENTE");
+  esBibliotecario(roles=this.roles()){
+    return roles.includes("ROLE_BIBLIOTECARIO");
+  }
+
+  esCliente(roles=this.roles()){
+    return roles.includes("ROLE_CLIENTE");
   }
 
   getGroup(){

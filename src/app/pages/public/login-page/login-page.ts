@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth-service';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthState } from '../../../state/auth-state';
 import { FormsModule, NgForm } from '@angular/forms';
+import { PerfilService } from '../../../services/cliente/perfil-service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,7 +17,9 @@ export class LoginPage {
 
   constructor(
     private authService: AuthService,
-    private authState: AuthState
+    private authState: AuthState,
+    private perfilService: PerfilService,
+    private router: Router
   ){
 
   }
@@ -26,13 +29,28 @@ export class LoginPage {
       const values = ngForm.form.value;
       this.authService.login(values.email, values.password, true)
         .subscribe(res =>{
-          console.log("Server response", res);
+          const self = this;
           if(res.token){
-            this.authState.setToken(res.token);
+            self.authState.setToken(res.token);
           }
           if(res.roles){
-            this.authState.setRoles(res.roles);
+            self.authState.setRoles(res.roles);
+
+            if(self.authState.esAdmin(res.roles)){
+              self.router.navigateByUrl('/admin');
+            } else if(self.authState.esBibliotecario(res.roles)){
+              self.router.navigateByUrl('/bibliotecario');
+            } else if(self.authState.esCliente(res.roles)){
+              self.router.navigateByUrl('/mis-reservas');
+            }
           }
+          setTimeout(()=>{
+            if(res.token){
+              self.perfilService.misDatos().subscribe(res=>{
+                console.log("Usuario", res);
+              })
+            }
+          },300);
         });
     }
   }

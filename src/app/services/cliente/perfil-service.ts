@@ -8,7 +8,7 @@ import { Usuario } from '../../domain/usuario';
   providedIn: 'root'
 })
 export class PerfilService {
-  private base = BASE_URL + '/publico/perfil';
+  private base = BASE_URL + 'cliente/perfil';
 
   constructor(private http: HttpClient){
   }

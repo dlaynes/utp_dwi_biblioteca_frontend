@@ -17,6 +17,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       if(error.status == 401){
         this.authState.resetToken();
         this.authState.resetRoles();
+        this.authState.resetUsuario();
       }
       const errMsg = error.error?.message || error.statusText;
       return throwError(() => errMsg);

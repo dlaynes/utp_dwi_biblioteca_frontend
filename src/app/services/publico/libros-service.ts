@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LibrosService {
-  private base = BASE_URL + '/publico/libros';
+  private base = BASE_URL + 'publico/libros';
 
   constructor(private http: HttpClient){
   }

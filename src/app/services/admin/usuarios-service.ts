@@ -23,7 +23,7 @@ export type ActualizarUsuarioRequest = {
   providedIn: 'root'
 })
 export class UsuariosService {
-  private base = BASE_URL + '/admin/usuarios';
+  private base = BASE_URL + 'admin/usuarios';
 
   constructor(private http: HttpClient){
   }

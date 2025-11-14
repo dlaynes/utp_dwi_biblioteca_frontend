@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class IdiomasService {
-  private base = BASE_URL + '/bibliotecario/editoriales';
+  private base = BASE_URL + 'bibliotecario/editoriales';
 
   constructor(private http: HttpClient){
   }

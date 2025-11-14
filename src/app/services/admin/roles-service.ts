@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RolesService {
-    private base = BASE_URL + '/admin/roles';
+    private base = BASE_URL + 'admin/roles';
 
   constructor(private http: HttpClient){
   }

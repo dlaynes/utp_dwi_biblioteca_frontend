@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class InventarioLibroService {
-  private base = BASE_URL + '/publico/inventarios';
+  private base = BASE_URL + 'publico/inventarios';
 
   constructor(private http: HttpClient){
   }
