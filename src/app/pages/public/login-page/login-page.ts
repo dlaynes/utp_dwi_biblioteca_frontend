@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect, untracked } from '@angular/core';
 import { AuthService } from '../../../services/auth-service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -21,7 +21,18 @@ export class LoginPage {
     private perfilService: PerfilService,
     private router: Router
   ){
-
+    effect(()=>{
+      const token = this.authState.token();
+      if(token){
+        untracked(()=>{
+          this.perfilService.misDatos().subscribe(res=>{
+            if(res?.id) {
+              this.authState.setUsuario(res);
+            }
+          });
+        });
+      }
+    });
   }
 
   onSubmit(ngForm: NgForm){
@@ -35,22 +46,15 @@ export class LoginPage {
           }
           if(res.roles){
             self.authState.setRoles(res.roles);
-
+            // TODO: notificación de ingreso
             if(self.authState.esAdmin(res.roles)){
               self.router.navigateByUrl('/admin');
             } else if(self.authState.esBibliotecario(res.roles)){
               self.router.navigateByUrl('/bibliotecario');
             } else if(self.authState.esCliente(res.roles)){
-              self.router.navigateByUrl('/mis-reservas');
+              self.router.navigateByUrl('/cliente/mis-reservas');
             }
           }
-          setTimeout(()=>{
-            if(res.token){
-              self.perfilService.misDatos().subscribe(res=>{
-                console.log("Usuario", res);
-              })
-            }
-          },300);
         });
     }
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BASE_URL } from './config';
 import { HttpClient } from '@angular/common/http';
 import type { LoginResponse } from './auth-service.types';
+import { Usuario } from '../domain/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class AuthService {
       password,
       remember
     });
+  }
+
+  public register(usuario: Usuario){
+    return this.http.post<Usuario>(this.base+'/register', usuario);
   }
 
 }

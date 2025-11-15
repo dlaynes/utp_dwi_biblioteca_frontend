@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { Categoria } from './pages/public/categoria/categoria';
-import { Registro } from './pages/public/registro/registro';
 import { MisReservas } from './pages/public/mis-reservas/mis-reservas';
 import { AcercaDe } from './pages/public/acerca-de/acerca-de';
 import { Catalogo } from './pages/public/catalogo/catalogo';
@@ -11,6 +10,7 @@ import { Index as BibliotecarioIndex } from './pages/bibliotecario/index/index';
 import { IndexPage } from './pages/public/index-page/index-page';
 import { LoginPage } from './pages/public/login-page/login-page';
 import { NotFoundPage } from './pages/public/not-found-page/not-found-page';
+import { RegistroPage } from './pages/public/registro-page/registro-page';
  
 export const routes: Routes = [
     {
@@ -30,10 +30,10 @@ export const routes: Routes = [
     },
     {
         path: 'registro',
-        component: Registro,
+        component: RegistroPage,
         title: 'Crear una cuenta'
     },{
-        path: 'mis-reservas',
+        path: 'cliente/mis-reservas',
         component: MisReservas,
         title: 'Reservas realizadas'
     },{

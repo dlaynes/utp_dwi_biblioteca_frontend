@@ -14,6 +14,7 @@ export interface Usuario {
     estadoUsuario: EstadoUsuario;
     emailPersonal: string;
     numeroDocumento: string;
+    telefono: string;
     tipoDocumento: TipoDocumento;
     estadoCivil: EstadoCivil;
     genero: Genero;

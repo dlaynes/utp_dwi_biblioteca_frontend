@@ -1,6 +1,8 @@
 import { Component, effect } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { AuthState } from '../../state/auth-state';
+import { Usuario } from '../../domain/usuario';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +12,40 @@ import { AuthState } from '../../state/auth-state';
   standalone: true,
 })
 export class Header {
-  constructor(private authState: AuthState){
 
-    effect(()=>{
-      const token = authState.token();
-      console.log("El token actual es " +  token);
+  esAdmin = false;
+
+  esBibliotecario = false;
+
+  esCliente = false;
+
+  usuario : Usuario|null = null;
+
+  path: string = '';
+
+  constructor(
+    private router: Router,
+    location: Location,
+    private authState: AuthState){
+
+    this.router.events.subscribe((val) => {
+      this.path = location.path();
     });
 
+    effect(()=>{
+      this.usuario = this.authState.user();
+    })
+
+    effect(()=>{
+      const roles = this.authState.roles();
+      this.esAdmin = this.authState.esAdmin(roles);
+      this.esBibliotecario = this.authState.esBibliotecario(roles);
+      this.esCliente = this.authState.esCliente(roles);
+    });
+
+  }
+
+  logout(){
+    this.authState.logout();
   }
 }

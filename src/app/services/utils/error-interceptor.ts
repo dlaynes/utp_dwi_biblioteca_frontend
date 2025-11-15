@@ -15,9 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(catchError(error=>{
       if(error.status == 401){
-        this.authState.resetToken();
-        this.authState.resetRoles();
-        this.authState.resetUsuario();
+        this.authState.logout();
       }
       const errMsg = error.error?.message || error.statusText;
       return throwError(() => errMsg);
