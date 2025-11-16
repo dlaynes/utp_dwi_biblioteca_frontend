@@ -1,0 +1,27 @@
+  <main class="container my-5" id="biblioDashboard">
+    <h3 class="section-title">Panel Bibliotecario</h3>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card p-3">
+          <div class="small text-muted">Usuarios con solicitudes activas</div>
+          <div class="stat-num" id="biblioUsersCount">—</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <div class="small text-muted">Reservas activas</div>
+          <div class="stat-num" id="biblioReservasCount">—</div>
+        </div>
+      </div>
+    </div>
+
+    <h5>Solicitudes activas</h5>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead><tr><th>Libro</th><th>Usuario</th><th>Prestado</th><th>Vence</th><th>Acción</th></tr></thead>
+        <tbody id="biblioReservaList"></tbody>
+      </table>
+    </div>
+  </main>
+

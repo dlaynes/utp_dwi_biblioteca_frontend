@@ -15,6 +15,7 @@ export const Grupos : Record<RolKey, string> = {
   providedIn: 'root'
 })
 export class AuthState {
+  
   readonly token = signal<string|null>(null);
 
   readonly roles = signal<RolKey[]>([]);
@@ -22,9 +23,10 @@ export class AuthState {
   readonly user = signal<Usuario|null>(null);
 
   constructor(){
-    const token = sessionStorage.getItem('biblioteca_token');
-    const roles = sessionStorage.getItem('biblioteca_roles');
-    const user = sessionStorage.getItem('biblioteca_user');
+    const token = localStorage.getItem('biblioteca_token');
+    const roles = localStorage.getItem('biblioteca_roles');
+    const user = localStorage.getItem('biblioteca_user');
+
     if(token && roles && user){
       this.user.set(JSON.parse(user));
       this.roles.set(JSON.parse(roles));
@@ -34,12 +36,12 @@ export class AuthState {
 
   setUsuario(usuario: Usuario){
     this.user.set(usuario);
-    sessionStorage.setItem('biblioteca_user', JSON.stringify(usuario));
+    localStorage.setItem('biblioteca_user', JSON.stringify(usuario));
   }
 
   setToken(token: string){
     this.token.set(token);
-    sessionStorage.setItem('biblioteca_token', token);
+    localStorage.setItem('biblioteca_token', token);
   }
 
   logout(){
@@ -50,22 +52,22 @@ export class AuthState {
 
   resetToken(){
     this.token.set(null);
-    sessionStorage.removeItem('biblioteca_token');
+    localStorage.removeItem('biblioteca_token');
   }
 
   setRoles(roles: RolKey[]){
     this.roles.set(roles);
-    sessionStorage.setItem('biblioteca_user', JSON.stringify(roles));
+    localStorage.setItem('biblioteca_user', JSON.stringify(roles));
   }
 
   resetRoles(){
     this.roles.set([]);
-    sessionStorage.removeItem('biblioteca_roles');
+    localStorage.removeItem('biblioteca_roles');
   }
 
   resetUsuario(){
     this.user.set(null);
-    sessionStorage.removeItem('biblioteca_user');
+    localStorage.removeItem('biblioteca_user');
   }
 
   esAdmin(roles=this.roles()){

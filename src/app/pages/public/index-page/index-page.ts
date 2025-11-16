@@ -42,13 +42,11 @@ export class IndexPage implements OnInit {
   ngOnInit(): void {
     const self = this;
     self.categoriaService.lista().subscribe(res => {
-      console.log("Categorias", res);
       self.categorias = res;
       self.cargandoCategorias = false;
       self.changeDetector.detectChanges(); // Parche para hacer que se actualize la plantilla en localhost
     });
     self.eventosService.lista().subscribe(res => {
-      console.log("Eventos", res);
       self.eventos = res;
       self.cargandoEventos = false;
       self.changeDetector.detectChanges();

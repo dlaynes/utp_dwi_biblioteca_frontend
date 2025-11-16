@@ -159,3 +159,8 @@ main {
 .table-small td, .table-small th { padding: .6rem .75rem; font-size: .9rem; }
 .section-title { font-weight: 700; color: var(--burgundy); margin-bottom: 1rem; }
 .biblio-card .card { border-radius: 10px; }
+
+.ag-layout-normal {
+  min-height: 500px;
+  height: 500px;
+}
