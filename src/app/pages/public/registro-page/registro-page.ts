@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal} from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { ESTADOS_CIVILES } from '../../../domain/estado-civil';
 import { mustMatch } from '../../../validators/must-match';
 import { AuthService } from '../../../services/auth-service';
 import { Usuario } from '../../../domain/usuario';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-registro-page',
@@ -17,6 +18,9 @@ import { Usuario } from '../../../domain/usuario';
   standalone: true,
 })
 export class RegistroPage implements OnInit {
+  
+  errorMessage: WritableSignal<string|null> = signal(null);
+  
   registerForm!: FormGroup;
 
   TIPOS_DOCUMENTO = TIPOS_DOCUMENTO;
@@ -48,13 +52,15 @@ export class RegistroPage implements OnInit {
     }, { validators: mustMatch('password', 'passwordConfirm') });
   }
 
-  onSubmit() {
-    this.authService.register(this.registerForm.value as Usuario).subscribe(res=>{
+  async onSubmit() {
+    try {
+      const res = await lastValueFrom(this.authService.register(this.registerForm.value as Usuario));
       if(res){
         alert("Su cuenta ha sido creada satisfactoriamente!");
         this.router.navigateByUrl('/login');
       }
-    });
-
+    } catch(err: any){
+      this.errorMessage.set(err?.message);
+    }
   }
 }

@@ -22,14 +22,14 @@ export class CategoriasService {
   }
 
   crear(data: Categoria): Observable<Categoria> {
-    return this.http.post<Categoria>(this.base, data);
+    return this.http.post<Categoria>(`${BASE_URL}/bibliotecario/categorias`, data);
   }
 
   actualizar(id: number, data: Categoria): Observable<Categoria> {
-    return this.http.put<Categoria>(`${this.base}/${id}`, data);
+    return this.http.put<Categoria>(`${BASE_URL}/bibliotecario/categorias/${id}`, data);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/${id}`);
+    return this.http.delete<void>(`${BASE_URL}/bibliotecario/categorias/${id}`);
   }
 }

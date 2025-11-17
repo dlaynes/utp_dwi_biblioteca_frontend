@@ -34,10 +34,10 @@
         <p class="text-muted small">Haz clic en un área para explorar — debes iniciar sesión para acceder a los recursos.</p>
 
         <div class="areas-grid mt-3">
-          @if(cargandoCategorias){
+          @if(cargandoCategorias()){
             <div>Cargando categorías...</div>
           } @else {
-            @for (categoria of categorias; track categoria.id) {
+            @for (categoria of categorias(); track categoria.id) {
               <a class="area-btn" [routerLink]="'categoria/'+categoria.slug">
                 <span [class]="categoria.color"><i [class]="categoria.icono"></i></span> {{categoria.nombre}}
               </a> 
@@ -52,12 +52,14 @@
       <div class="col-lg-3">
         <div class="card p-3 activities-card">
           <h6 class="text-white">Próximas actividades</h6>
-          @if(cargandoEventos){
+          @if(cargandoEventos()){
             <div>Cargando eventos...</div>
           } @else {
             <ul class="list-unstyled mt-3 small text-white-75">
-              @for (evento of eventos; track evento.id) {
-                <li class="mb-3"><strong>{{ evento.fechaEvento?.replace('T', ' ') | date: 'dd/MM/yyyy' }}</strong><br />{{tiposEvento[evento.tipoEvento]}}: {{evento.titulo}}</li>
+              @for (evento of eventos(); track evento.id) {
+                <li class="mb-3">
+                  <strong>{{ evento.fechaEvento?.replace('T', ' ') | date: 'dd/MM/yyyy' }}</strong>
+                  <br />{{tiposEvento[evento.tipoEvento]}}: {{evento.titulo}}</li>
               } @empty {
                 <li>No se encontraron eventos.</li>
               }

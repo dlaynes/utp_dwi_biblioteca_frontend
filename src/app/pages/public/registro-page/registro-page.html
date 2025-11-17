@@ -4,6 +4,12 @@
         <h3>Regístrate</h3>
         <p>Completa los campos para crear tu cuenta</p>
 
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            {{errorMessage()}}
+          </div>
+        }
+
         <form id="registerForm" class="mt-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label class="form-label">Nombres</label>

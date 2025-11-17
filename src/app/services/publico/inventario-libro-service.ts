@@ -22,14 +22,14 @@ export class InventarioLibroService {
   }
 
   crear(data: InventarioLibro): Observable<InventarioLibro> {
-    return this.http.post<InventarioLibro>(this.base, data);
+    return this.http.post<InventarioLibro>(`${BASE_URL}/bibliotecario/inventarios`, data);
   }
 
   actualizar(id: number, data: InventarioLibro): Observable<InventarioLibro> {
-    return this.http.put<InventarioLibro>(`${this.base}/${id}`, data);
+    return this.http.put<InventarioLibro>(`${BASE_URL}/bibliotecario/inventarios/${id}`, data);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/${id}`);
+    return this.http.delete<void>(`${BASE_URL}/bibliotecario/inventarios/${id}`);
   }
 }

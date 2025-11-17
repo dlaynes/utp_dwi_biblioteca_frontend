@@ -22,14 +22,14 @@ export class EventosService {
   }
 
   crear(data: Evento): Observable<Evento> {
-    return this.http.post<Evento>(this.base, data);
+    return this.http.post<Evento>(`${BASE_URL}/bibliotecario/eventos`, data);
   }
 
   actualizar(id: number, data: Evento): Observable<Evento> {
-    return this.http.put<Evento>(`${this.base}/${id}`, data);
+    return this.http.put<Evento>(`${BASE_URL}/bibliotecario/eventos/${id}`, data);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/${id}`);
+    return this.http.delete<void>(`${BASE_URL}/bibliotecario/eventos/${id}`);
   }
 }

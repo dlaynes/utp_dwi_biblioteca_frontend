@@ -2,7 +2,8 @@
     <h3 class="section-title">Gestión de Usuarios</h3>
     <div class="table-responsive">
       <ag-grid-angular
-        [rowData]="usuarios"
-        [columnDefs]="colDefs" />
+        [rowData]="usuarios()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
     </div>
   </main>

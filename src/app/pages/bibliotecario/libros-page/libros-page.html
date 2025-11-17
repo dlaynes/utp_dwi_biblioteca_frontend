@@ -1,0 +1,9 @@
+  <main class="container my-5" id="mantenimientoLibros">
+    <h3 class="section-title">Gestión de Libros</h3>
+    <div class="table-responsive">
+      <ag-grid-angular
+        [rowData]="libros()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
+    </div>
+  </main>

@@ -24,14 +24,14 @@ export class LibrosService {
   }
 
   crear(data: Libro): Observable<Libro> {
-    return this.http.post<Libro>(this.base, data);
+    return this.http.post<Libro>(BASE_URL+'/bibliotecario/libros', data);
   }
 
   actualizar(id: number, data: Libro): Observable<Libro> {
-    return this.http.put<Libro>(`${this.base}/${id}`, data);
+    return this.http.put<Libro>(`${BASE_URL}/bibliotecario/libros/${id}`, data);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/${id}`);
+    return this.http.delete<void>(`${BASE_URL}/bibliotecario/libros/${id}`);
   }
 }
