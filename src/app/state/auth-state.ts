@@ -27,8 +27,6 @@ export class AuthState {
     const roles = localStorage.getItem('biblioteca_roles');
     const user = localStorage.getItem('biblioteca_user');
 
-    console.log("Token", token, roles, user);
-
     if(token && roles && user){
       this.user.set(JSON.parse(user));
       this.roles.set(JSON.parse(roles));
@@ -54,22 +52,22 @@ export class AuthState {
 
   resetToken(){
     this.token.set(null);
-    localStorage.removeItem('biblioteca_token');
+    localStorage.setItem('biblioteca_token', '');
   }
 
   setRoles(roles: RolKey[]){
     this.roles.set(roles);
-    localStorage.setItem('biblioteca_user', JSON.stringify(roles));
+    localStorage.setItem('biblioteca_roles', JSON.stringify(roles));
   }
 
   resetRoles(){
     this.roles.set([]);
-    localStorage.removeItem('biblioteca_roles');
+    localStorage.setItem('biblioteca_roles', '');
   }
 
   resetUsuario(){
     this.user.set(null);
-    localStorage.removeItem('biblioteca_user');
+    localStorage.setItem('biblioteca_user', '');
   }
 
   esAdmin(roles=this.roles()){
