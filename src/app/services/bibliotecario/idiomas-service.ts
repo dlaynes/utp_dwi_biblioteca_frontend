@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class IdiomasService {
-  private base = BASE_URL + 'bibliotecario/editoriales';
+  private base = BASE_URL + 'publico/idiomas';
 
   constructor(private http: HttpClient){
   }
@@ -22,14 +22,14 @@ export class IdiomasService {
   }
 
   crear(data: Idioma): Observable<Idioma> {
-    return this.http.post<Idioma>(this.base, data);
+    return this.http.post<Idioma>(`${BASE_URL}/bibliotecario/idiomas`, data);
   }
 
   actualizar(id: number, data: Idioma): Observable<Idioma> {
-    return this.http.put<Idioma>(`${this.base}/${id}`, data);
+    return this.http.put<Idioma>(`${BASE_URL}/bibliotecario/idiomas/${id}`, data);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/${id}`);
+    return this.http.delete<void>(`${BASE_URL}/bibliotecario/idiomas/${id}`);
   }
 }

@@ -7,6 +7,7 @@ import type { ColDef } from 'ag-grid-community'; // Column Definition Type Inter
 import { AuthState } from '../../../state/auth-state';
 import { lastValueFrom } from 'rxjs';
 import { GridActions } from '../../../components/grid-actions/grid-actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-page',
@@ -16,13 +17,14 @@ import { GridActions } from '../../../components/grid-actions/grid-actions';
   standalone: true,
 })
 export class UsuariosPage {
+
   // Usamos un signal para mantener el estado de los usuarios.
   usuarios: WritableSignal<Usuario[]> = signal([]);
 
   // La definición de columnas no cambia.
   colDefs: ColDef[] = [
-      { field: "nombres" },
-      { field: "apellidos" },
+      { field: "nombres", width: 140 },
+      { field: "apellidos" , width: 140},
       { field: "email" },
       { field: "ultimoLogin" },
       { field: "id", cellRenderer: GridActions, cellRendererParams: {
@@ -35,6 +37,7 @@ export class UsuariosPage {
   ];
 
   constructor(
+    private router: Router,
     private authState: AuthState,
     private usuarioService: UsuariosService,
   ){
@@ -49,7 +52,7 @@ export class UsuariosPage {
   }
 
   edit(id: number){
-    console.log("Editando usuario", id);
+    this.router.navigate(['/admin/usuarios', id], {state: this.usuarios().find(l => l.id === id)});
   }
 
   delete(id: number){

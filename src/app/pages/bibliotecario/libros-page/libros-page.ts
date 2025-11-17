@@ -2,11 +2,13 @@ import { Component, signal, WritableSignal, effect } from '@angular/core';
 import { Libro } from '../../../domain/libro';
 import { AuthState } from '../../../state/auth-state';
 
+
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import type { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
 import { LibrosService } from '../../../services/publico/libros-service';
 import { lastValueFrom } from 'rxjs';
 import { GridActions } from '../../../components/grid-actions/grid-actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-libros-page',
@@ -37,6 +39,7 @@ export class LibrosPage {
   constructor(
     private authState: AuthState,
     private libroService: LibrosService,
+    private router: Router,
   ){
     effect(()=>{
       const token = this.authState.token();
@@ -47,7 +50,7 @@ export class LibrosPage {
   }
 
   edit(id: number){
-    console.log("Editando libro", id);
+    this.router.navigate(['/bibliotecario/libros', id], {state: this.libros().find(l => l.id === id)});
   }
 
   delete(id: number){

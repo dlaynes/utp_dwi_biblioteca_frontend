@@ -50,7 +50,12 @@
             <li class="nav-item"><a class="nav-link" routerLink="colecciones">Colecciones nuevas</a></li>
             @if(esCliente){
             <li class="nav-item"><a class="nav-link" routerLink="cliente/mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
+            } @else if (esBibliotecario){
+              <li class="nav-item"><a class="nav-link active" routerLink="bibliotecario">Dashboard</a></li>
+            } @else if (esAdmin){
+              <li class="nav-item"><a class="nav-link" routerLink="admin">Dashboard</a></li>
             }
+
             @if(!esCliente && !esBibliotecario && !esAdmin){
             <li class="nav-item ms-3" id="nav-auth">
               <a class="btn btn-outline-light me-2" routerLink="login"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a>
@@ -58,7 +63,7 @@
             </li>
             } @else {
             <li class="nav-item" id="nav-welcome">
-                <span class="nav-link welcome-text">Bivenvenido {{usuario ? usuario.nombres : "-"}}</span>
+                <span class="nav-link welcome-text">Bienvenido {{usuario ? usuario.nombres : "-"}}</span>
                 <button class="btn btn-outline-light btn-sm ms-2" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
               </li>
             }

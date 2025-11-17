@@ -27,6 +27,7 @@ export class AuthState {
     const roles = localStorage.getItem('biblioteca_roles');
     const user = localStorage.getItem('biblioteca_user');
 
+    console.log("Datos de sesión", !!token, !!roles, !!user);
     if(token && roles && user){
       this.user.set(JSON.parse(user));
       this.roles.set(JSON.parse(roles));

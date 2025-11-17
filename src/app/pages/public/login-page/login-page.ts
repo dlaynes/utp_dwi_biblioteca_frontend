@@ -1,10 +1,9 @@
-import { effect, untracked, Component, signal, WritableSignal } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { AuthService } from '../../../services/auth-service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthState } from '../../../state/auth-state';
 import { FormsModule, NgForm } from '@angular/forms';
-import { PerfilService } from '../../../services/cliente/perfil-service';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
@@ -21,26 +20,8 @@ export class LoginPage {
   constructor(
     private authService: AuthService,
     private authState: AuthState,
-    private perfilService: PerfilService,
     private router: Router
   ){
-    effect(()=>{
-      const token = this.authState.token();
-      if(!token){
-        return;
-      }
-      untracked(async ()=>{
-        try {
-          const res = await lastValueFrom(this.perfilService.misDatos());
-
-          if(res?.id) {
-            this.authState.setUsuario(res);
-          }
-        } catch(e: any){
-          this.errorMessage.set(e?.message);
-        }
-      });
-    });
   }
 
   async onSubmit(ngForm: NgForm){

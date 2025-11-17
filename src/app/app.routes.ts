@@ -16,6 +16,7 @@ import { UsuariosPage } from './pages/admin/usuarios-page/usuarios-page';
 import { ReportesPage } from './pages/admin/reportes-page/reportes-page';
 import { UsuariosDetailPage } from './pages/admin/usuarios-detail-page/usuarios-detail-page';
 import { LibrosPage } from './pages/bibliotecario/libros-page/libros-page';
+import { DetalleLibroPage } from './pages/bibliotecario/detalle-libro-page/detalle-libro-page';
  
 export const routes: Routes = [
     {
@@ -66,7 +67,7 @@ export const routes: Routes = [
         component: UsuariosPage,
         title: 'Listado de Usuarios'
     },{
-        path: 'admin/usuarios-detalle/:id',
+        path: 'admin/usuarios/:id',
         component: UsuariosDetailPage,
         title: 'Detalle de un usuario'
     },{
@@ -81,6 +82,10 @@ export const routes: Routes = [
         path: 'bibliotecario/libros',
         component: LibrosPage,
         title: 'Listado de Libros',
+    }, {
+        path: 'bibliotecario/libros/:id',
+        component: DetalleLibroPage,
+        title: 'Detalle de un libro',
     }, {
         path: '*',
         component: NotFoundPage,
