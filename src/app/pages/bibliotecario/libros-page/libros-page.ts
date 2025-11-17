@@ -20,13 +20,16 @@ export class LibrosPage {
   libros: WritableSignal<Libro[]> = signal([]);
 
   colDefs: ColDef[] = [
-      { field: "titulo" },
-      { field: "autor", valueFormatter: params => params.value?.nombres + ' ' + params.value?.apellidos},
+      { field: "titulo", width: 120 },
+      { field: "autor", width: 120, valueFormatter: params => params.value?.nombres + ' ' + params.value?.apellidos},
       { field: "editorial", valueFormatter: params => params.value?.nombre},
       { field: "publicadoEn", headerName: "Fecha de publicación" },
-      { field: "id", cellRenderer: GridActions, cellRendererParams: {
-        editAction: this.edit.bind(this),
-        deleteAction: this.delete.bind(this),
+      { field: "id", width: 240, cellRenderer: GridActions, cellRendererParams: {
+        actions: [
+          {type: 'edit', btnClass: 'btn-primary', label: 'Editar', action: this.edit.bind(this)},
+          {type: 'inventory', btnClass: 'btn-info', label: 'Inventario', action: this.verInventario.bind(this)},
+          {type: 'delete', btnClass: 'btn-danger', label: 'Eliminar', action: this.delete.bind(this)},
+        ],
         suppressMouseEventHandling: () => true,
       }, headerName: "Acciones"}
   ];
@@ -49,6 +52,10 @@ export class LibrosPage {
 
   delete(id: number){
     console.log("Borrando libro", id);
+  }
+
+  verInventario(id: number){
+    console.log("Ver nventario de libro", id);
   }
 
   private async cargarLibros(): Promise<void> {

@@ -2,6 +2,14 @@ import { Component, signal } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+export type GridSingleAction = {
+  type: string;
+  btnClass: string;
+  label: string;
+  action: (id: number) => void;
+};
+
+
 @Component({
   selector: 'app-grid-actions',
   imports: [],
@@ -11,33 +19,32 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class GridActions implements ICellRendererAngularComp {
   params!: ICellRendererParams<any, any, any>;
 
-  hasEdit = signal(false);
-  hasDelete = signal(false);
+  actions = signal<Record<string, GridSingleAction>>({});
+
+  Object = Object;
+
+  checkParams(){
+    const acts: Record<string, GridSingleAction> = {};
+    // @ts-ignore
+    this.params.actions?.map((act: GridSingleAction)=>{
+      acts[act.type] = act;
+    });
+    this.actions.set(acts);
+  }
 
   agInit(params: ICellRendererParams<any, any, any>): void {
     this.params = params;
     console.log("params", this.params);
-
-    // @ts-ignore
-    this.hasEdit.set(!!this.params.editAction);
-    // @ts-ignore
-    this.hasDelete.set(!!this.params.deleteAction);
+    this.checkParams();
   }
 
   refresh(params: ICellRendererParams<any, any, any>): boolean {
     this.params = params;
-
-    this.hasEdit.set(!!this.params.value.editAction);
-    this.hasDelete.set(!!this.params.value.deleteAction);
+    this.checkParams();
     return true; 
   }
 
-  edit(){
-    this.params.value?.editAction?.(this.params.data.id);
+  doAction(a: string){
+    this.actions()[a]?.action?.(this.params.data.id);
   }
-
-  remove(){
-    this.params.value?.deleteAction?.(this.params.data.id);
-  }
-
 }

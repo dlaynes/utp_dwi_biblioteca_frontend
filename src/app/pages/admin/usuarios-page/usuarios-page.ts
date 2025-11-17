@@ -26,8 +26,10 @@ export class UsuariosPage {
       { field: "email" },
       { field: "ultimoLogin" },
       { field: "id", cellRenderer: GridActions, cellRendererParams: {
-        editAction: this.edit.bind(this),
-        deleteAction: this.delete.bind(this),
+        actions: [
+          {type: 'edit', btnClass: 'btn-primary', label: 'Editar', action: this.edit.bind(this)},
+          {type: 'delete', btnClass: 'btn-danger', label: 'Eliminar', action: this.delete.bind(this)},
+        ],
         suppressMouseEventHandling: () => true,
       }, headerName: "Acciones"}
   ];
