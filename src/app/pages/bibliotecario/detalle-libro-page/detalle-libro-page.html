@@ -74,8 +74,28 @@
             <input type="text" name="ibsm" formControlName="ibsm" class="form-control" required>
           </div>
 
-            <button class="btn btn-success" type="submit" [disabled]="!detalleLibroForm.valid">
-                <i class="fa-solid fa-save"></i> Guardar</button>
+          <div class="mb-3">
+            <label class="form-label">Disponibles</label>
+            <input type="number" name="disponibles" formControlName="disponibles" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Reservados</label>
+            <input type="number" [disabled]="true" name="disponibles" formControlName="disponibles" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Prestados</label>
+            <input type="number" [disabled]="true" name="prestados" formControlName="prestados" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Perdidos</label>
+            <input type="number" [disabled]="true" name="perdidos" formControlName="perdidos" class="form-control">
+          </div>
+
+          <button class="btn btn-success" type="submit" [disabled]="!detalleLibroForm.valid">
+              <i class="fa-solid fa-save"></i> Guardar</button>
         </form>
     }
 

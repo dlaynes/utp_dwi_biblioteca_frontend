@@ -16,5 +16,9 @@ export interface Libro {
     imagen: string;
     publicadoEn: string;
     generoLiterario: string;
+    disponibles: number;
+    reservados: number;
+    prestados: number;
+    perdidos: number;
     categorias: Categoria[];
 };

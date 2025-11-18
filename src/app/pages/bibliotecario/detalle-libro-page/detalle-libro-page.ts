@@ -84,6 +84,10 @@ export class DetalleLibroPage implements OnInit{
         nacionalidad: [lib?.nacionalidad || ''],
         paginas: [lib?.paginas || ''],
         generoLiterario: [lib?.generoLiterario || ''],
+        disponibles: [lib?.disponibles || ''],
+        reservados: [lib?.reservados || ''],
+        perdidos: [lib?.perdidos || ''],
+        prestados: [lib?.prestados || ''],
       });
 
     } catch(e){
