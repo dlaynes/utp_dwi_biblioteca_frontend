@@ -54,7 +54,7 @@
 
           <div class="mb-3">
             <label class="form-label">Tipo de documento</label>
-            <select class="form-control" name="tipoDocumento" formControlName="tipoDocumento">
+            <select class="form-select" name="tipoDocumento" formControlName="tipoDocumento">
               <option value="" selected disabled>Seleccione un tipo de documento</option>
               @for(tipoDocumento of TIPOS_DOCUMENTO; track tipoDocumento.value){
               <option [value]="tipoDocumento.value">{{tipoDocumento.label}}</option>  
@@ -68,7 +68,7 @@
 
           <div class="mb-3">
             <label class="form-label">Género</label>
-            <select class="form-control" name="genero" formControlName="genero">
+            <select class="form-select" name="genero" formControlName="genero">
               <option value="" selected disabled>Seleccione un género</option>
               @for(genero of GENEROS; track genero.value){
               <option [value]="genero.value">{{genero.label}}</option>  
@@ -78,7 +78,7 @@
 
           <div class="mb-4">
             <label class="form-label">Estado civil</label>
-            <select class="form-control" name="estadoCivil" formControlName="estadoCivil">
+            <select class="form-select" name="estadoCivil" formControlName="estadoCivil">
               <option value="" selected disabled>Seleccione un estado civil</option>
               @for(estadoCivil of ESTADOS_CIVILES; track estadoCivil.value){
               <option [value]="estadoCivil.value">{{estadoCivil.label}}</option>  

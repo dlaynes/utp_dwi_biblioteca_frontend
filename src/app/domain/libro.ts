@@ -8,9 +8,12 @@ export interface Libro {
     fechaRegistro: string;
     titulo: string;
     autor: Autor;
+    autorId?: number;
     ibsm: string;
     editorial: Editorial;
+    editorialId?: number;
     idioma: Idioma;
+    idiomaId?: number;
     nacionalidad: string;
     paginas: number;
     imagen: string;
@@ -20,5 +23,6 @@ export interface Libro {
     reservados: number;
     prestados: number;
     perdidos: number;
-    categorias: Categoria[];
+    categoriaIds?: number[];
+    categorias?: Categoria[];
 };

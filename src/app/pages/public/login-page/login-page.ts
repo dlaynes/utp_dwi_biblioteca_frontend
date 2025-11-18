@@ -37,14 +37,14 @@ export class LoginPage {
       if(res.token){
         self.authState.setToken(res.token);
       }
-      if(res.roles){
-        self.authState.setRoles(res.roles);
+      if(res.rolKeys){
+        self.authState.setRoles(res.rolKeys);
         // TODO: notificación de ingreso
-        if(self.authState.esAdmin(res.roles)){
+        if(self.authState.esAdmin(res.rolKeys)){
           self.router.navigateByUrl('/admin');
-        } else if(self.authState.esBibliotecario(res.roles)){
+        } else if(self.authState.esBibliotecario(res.rolKeys)){
           self.router.navigateByUrl('/bibliotecario');
-        } else if(self.authState.esCliente(res.roles)){
+        } else if(self.authState.esCliente(res.rolKeys)){
           self.router.navigateByUrl('/cliente/mis-reservas');
         }
       }

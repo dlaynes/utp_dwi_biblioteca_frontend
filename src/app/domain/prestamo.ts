@@ -1,4 +1,4 @@
-import { InventarioLibro } from "./inventario-libro";
+import { Libro } from "./libro";
 import { Usuario } from "./usuario";
 
 export interface Prestamo {
@@ -6,7 +6,7 @@ export interface Prestamo {
     estadoPrestamo: string;
     lugarPrestamo: string;
     fechaRegistro: string;
-    inventarioLibro: InventarioLibro;
+    libro: Libro;
     cliente: Partial<Usuario>;
     entregadoPor: Partial<Usuario>;
     recepcionadoPor: Partial<Usuario>;

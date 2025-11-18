@@ -5,20 +5,6 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../domain/usuario';
 import { BASE_URL } from '../config';
 
-export type ActualizarUsuarioRequest = {
-  nombres: string;
-  apellidos: string;
-  email: string;
-  password?: string;
-  roles: ('ADMIN' | 'BIBLIOTECARIO' | 'CLIENTE')[];
-  emailPersonal: string;
-  tipoDocumento: string;
-  numeroDocumento: string;
-  genero: string;
-  estadoCivil: string;
-  estadoUsuario: string;
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -44,11 +30,11 @@ export class UsuariosService {
     return this.http.post<any>(`${this.base}/existe`, params);
   }
 
-  crear(data: ActualizarUsuarioRequest): Observable<Usuario|string> {
+  crear(data: Usuario): Observable<Usuario|string> {
     return this.http.post<Usuario|string>(this.base, data);
   }
 
-  actualizar(id: number, data: ActualizarUsuarioRequest): Observable<Usuario|string> {
+  actualizar(id: number, data: Usuario): Observable<Usuario|string> {
     return this.http.put<Usuario|string>(`${this.base}/${id}`, data);
   }
 

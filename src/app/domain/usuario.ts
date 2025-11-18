@@ -1,7 +1,7 @@
 import type { EstadoCivil } from "./estado-civil";
 import type { EstadoUsuario } from "./estado-usuario";
 import type { Genero } from "./genero";
-import type { RolKey } from "./rol";
+import type { RolKey, Rol } from "./rol";
 import type { TipoDocumento } from "./tipo-documento";
 
 export interface Usuario {
@@ -18,5 +18,6 @@ export interface Usuario {
     tipoDocumento: TipoDocumento;
     estadoCivil: EstadoCivil;
     genero: Genero;
-    roles: RolKey[];
+    roles: Rol[];
+    rolKeys: RolKey[];
 };

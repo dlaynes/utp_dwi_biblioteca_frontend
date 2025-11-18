@@ -10,82 +10,118 @@
         }
 
         <form id="registerForm" class="mt-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label class="form-label">Nombres</label>
-            <input type="text" name="nombres" formControlName="nombres" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Apellidos</label>
-            <input type="text" name="apellidos" formControlName="apellidos" class="form-control" required>
-          </div>
 
-          <div class="mb-3">
-            <label class="form-label">Correo electrónico</label>
-            <input type="email" name="email" formControlName="email" class="form-control" required>
-          </div>
-          @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
-            <div>
-              @if (userForm.get('email')?.errors?.['required']) {
-                <small class="text-danger">El correo es obligatorio</small>
+          <h3 class="section-title">{{ usuario() ? 'Editar un usuario (id: '+ usuario()?.id +')' : 'Agregar un usuario'  }}</h3>
+
+          <div class="row">
+            <div class="col-6">
+
+              <div class="mb-3">
+                <label class="form-label">Nombres</label>
+                <input type="text" name="nombres" formControlName="nombres" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Apellidos</label>
+                <input type="text" name="apellidos" formControlName="apellidos" class="form-control" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <input type="email" name="email" formControlName="email" class="form-control" required>
+              </div>
+              @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
+                <div>
+                  @if (userForm.get('email')?.errors?.['required']) {
+                    <small class="text-danger">El correo es obligatorio</small>
+                  }
+                  @if (userForm.get('email')?.errors?.['email']) {
+                    <small class="text-danger">El correo no es válido</small>
+                  }
+                </div>
               }
-              @if (userForm.get('email')?.errors?.['email']) {
-                <small class="text-danger">El correo no es válido</small>
-              }
+
+              <div class="mb-3">
+                <label class="form-label">Celular</label>
+                <input type="tel" name="telefono" formControlName="telefono" class="form-control" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" name="password" formControlName="password" class="form-control" [minlength]="!usuario() ? 6 : 0" [required]="!usuario()">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Repetir contraseña</label>
+                <input type="password" name="passwordConfirm" formControlName="passwordConfirm" class="form-control" [minlength]="!usuario() ? 6 : 0" [required]="!usuario()">
+                @if(userForm.get('confirmPassword')?.errors?.['mustMatch'] && userForm.get('passwordConfirm')?.touched){
+                <small class="text-danger">
+                  Las contraseñas deben ser iguales
+                </small>
+                }
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Estado del usuario</label>
+                <select class="form-select" name="estadoUsuario" formControlName="estadoUsuario">
+                  <option value="" selected disabled>Seleccione un estado de usuario</option>
+                  @for(estadoUsuario of ESTADOS_USUARIO; track estadoUsuario.value){
+                  <option [value]="estadoUsuario.value">{{estadoUsuario.label}}</option>  
+                  }
+                </select>
+              </div>
+
             </div>
-          }
-          <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input type="password" name="password" formControlName="password" class="form-control" minlength="6" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Repetir contraseña</label>
-            <input type="password" name="passwordConfirm" formControlName="passwordConfirm" class="form-control" minlength="6" required>
-            @if(userForm.get('confirmPassword')?.errors?.['mustMatch'] && userForm.get('passwordConfirm')?.touched){
-            <small class="text-danger">
-              Las contraseñas deben ser iguales
-            </small>
-            }
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Celular</label>
-            <input type="tel" name="telefono" formControlName="telefono" class="form-control" required>
+            <div class="col-6">
+              <div class="mb-3" formArrayName="rolKeys">
+                <div class="mb-1">Roles</div>
+
+                @for(rol of ROLES; track rol.value; let idx = $index){
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" [formControlName]="idx" value="{{rol.value}}" [id]="'rolCheck' + idx">
+                  <label class="form-check-label" [for]="'rolCheck' + idx">
+                    {{ rol.label }}
+                  </label>
+                </div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Tipo de documento</label>
+                <select class="form-select" name="tipoDocumento" formControlName="tipoDocumento">
+                  <option value="" selected disabled>Seleccione un tipo de documento</option>
+                  @for(tipoDocumento of TIPOS_DOCUMENTO; track tipoDocumento.value){
+                  <option [value]="tipoDocumento.value">{{tipoDocumento.label}}</option>  
+                  }
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Número de documento</label>
+                <input type="text" name="numeroDocumento" formControlName="numeroDocumento" class="form-control" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Género</label>
+                <select class="form-select" name="genero" formControlName="genero">
+                  <option value="" selected disabled>Seleccione un género</option>
+                  @for(genero of GENEROS; track genero.value){
+                  <option [value]="genero.value">{{genero.label}}</option>  
+                  }
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Estado civil</label>
+                <select class="form-select" name="estadoCivil" formControlName="estadoCivil">
+                  <option value="" selected disabled>Seleccione un estado civil</option>
+                  @for(estadoCivil of ESTADOS_CIVILES; track estadoCivil.value){
+                  <option [value]="estadoCivil.value">{{estadoCivil.label}}</option>  
+                  }
+                </select>
+              </div>
+
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Tipo de documento</label>
-            <select class="form-control" name="tipoDocumento" formControlName="tipoDocumento">
-              <option value="" selected disabled>Seleccione un tipo de documento</option>
-              @for(tipoDocumento of TIPOS_DOCUMENTO; track tipoDocumento.value){
-              <option [value]="tipoDocumento.value">{{tipoDocumento.label}}</option>  
-              }
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Número de documento</label>
-            <input type="text" name="numeroDocumento" formControlName="numeroDocumento" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Género</label>
-            <select class="form-control" name="genero" formControlName="genero">
-              <option value="" selected disabled>Seleccione un género</option>
-              @for(genero of GENEROS; track genero.value){
-              <option [value]="genero.value">{{genero.label}}</option>  
-              }
-            </select>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label">Estado civil</label>
-            <select class="form-control" name="estadoCivil" formControlName="estadoCivil">
-              <option value="" selected disabled>Seleccione un estado civil</option>
-              @for(estadoCivil of ESTADOS_CIVILES; track estadoCivil.value){
-              <option [value]="estadoCivil.value">{{estadoCivil.label}}</option>  
-              }
-            </select>
-          </div>
-
-          <button class="btn btn-success" type="submit" [disabled]="userForm.invalid">
+          <button class="btn btn-success" type="submit" [disabled]="!userForm.valid">
             <i class="fa-solid fa-user-plus"></i> Guardar</button>
         </form>
 

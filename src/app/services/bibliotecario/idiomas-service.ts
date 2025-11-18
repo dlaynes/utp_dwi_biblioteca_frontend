@@ -22,14 +22,14 @@ export class IdiomasService {
   }
 
   crear(data: Idioma): Observable<Idioma> {
-    return this.http.post<Idioma>(`${BASE_URL}/bibliotecario/idiomas`, data);
+    return this.http.post<Idioma>(`${BASE_URL}bibliotecario/idiomas`, data);
   }
 
   actualizar(id: number, data: Idioma): Observable<Idioma> {
-    return this.http.put<Idioma>(`${BASE_URL}/bibliotecario/idiomas/${id}`, data);
+    return this.http.put<Idioma>(`${BASE_URL}bibliotecario/idiomas/${id}`, data);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`${BASE_URL}/bibliotecario/idiomas/${id}`);
+    return this.http.delete<void>(`${BASE_URL}bibliotecario/idiomas/${id}`);
   }
 }

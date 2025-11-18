@@ -1,97 +1,117 @@
   <main class="container my-5" id="mantenimientoDetalleLibrs">
-    <h3 class="section-title">Detalle de un libro</h3>
-
     @if(isLoading()){
         <span>Cargando...</span>
     }
     
     @if(detalleLibroForm){
+
+        <h3 class="section-title">{{ libro() ? 'Editar un libro (id: '+ libro()?.id +')' : 'Agregar un libro'  }}</h3>
+
         <form id="detalleLibroForm" class="mt-3" [formGroup]="detalleLibroForm" (ngSubmit)="submit()">
 
-          <div class="mb-3">
-            <label class="form-label">Título</label>
-            <input type="text" name="titulo" formControlName="titulo" class="form-control" required>
-          </div>
+          <div class="row">
+            <div class="col-6">
 
-          <div class="mb-3">
-            <label class="form-label">Autor</label>
-            <select class="form-control" name="autor" formControlName="autor">
-              <option value="" selected disabled>Seleccione un autor</option>
-              @for(autor of autores(); track autor.id){
-              <option [value]="autor.id">{{autor.apellidos}}, {{autor.nombres}}</option>  
-              }
-            </select>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Título</label>
+                <input type="text" name="titulo" formControlName="titulo" class="form-control" required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Editorial</label>
-            <select class="form-control" name="editorial" formControlName="editorial">
-              <option value="" selected disabled>Seleccione una editorial</option>
-              @for(editorial of editoriales(); track editorial.id){
-              <option [value]="editorial.id">{{editorial.nombre}}</option>  
-              }
-            </select>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Autor</label>
+                <select class="form-select" name="autorId" formControlName="autorId">
+                  <option value="" selected disabled>Seleccione un autor</option>
+                  @for(autor of autores(); track autor.id){
+                  <option [value]="autor.id">{{autor.apellidos}}, {{autor.nombres}}</option>  
+                  }
+                </select>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Idioma</label>
-            <select class="form-control" name="idioma" formControlName="idioma">
-              <option value="" selected disabled>Seleccione un idioma</option>
-              @for(idioma of idiomas(); track idioma.id){
-              <option [value]="idioma.id">{{idioma.nombre}}</option>  
-              }
-            </select>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Editorial</label>
+                <select class="form-select" name="editorialId" formControlName="editorialId">
+                  <option value="" selected disabled>Seleccione una editorial</option>
+                  @for(editorial of editoriales(); track editorial.id){
+                  <option [value]="editorial.id">{{editorial.nombre}}</option>  
+                  }
+                </select>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Publicado en</label>
-            <input type="text" name="publicadoEn" formControlName="publicadoEn" class="form-control" required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Idioma</label>
+                <select class="form-select" name="idiomaId" formControlName="idiomaId">
+                  <option value="" selected disabled>Seleccione un idioma</option>
+                  @for(idioma of idiomas(); track idioma.id){
+                  <option [value]="idioma.id">{{idioma.nombre}}</option>  
+                  }
+                </select>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Nacionalidad</label>
-            <input type="text" name="nacionalidad" formControlName="nacionalidad" class="form-control" required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Publicado en</label>
+                <input type="text" name="publicadoEn" formControlName="publicadoEn" class="form-control" required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Páginas</label>
-            <input type="number" name="paginas" formControlName="paginas" class="form-control" required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Nacionalidad</label>
+                <input type="text" name="nacionalidad" formControlName="nacionalidad" class="form-control" required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Género literario</label>
-            <select class="form-control" name="generoLiterario" formControlName="generoLiterario">
-              <option value="" selected disabled>Seleccione un género literario</option>
-              @for(genero of GENEROS_LITERARIOS; track genero.value){
-              <option [value]="genero.value">{{genero.label}}</option>  
-              }
-            </select>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Páginas</label>
+                <input type="number" name="paginas" formControlName="paginas" class="form-control" required>
+              </div>
 
+              <div class="mb-4">
+                <label class="form-label">Género literario</label>
+                <select class="form-select" name="generoLiterario" formControlName="generoLiterario">
+                  <option value="" selected disabled>Seleccione un género literario</option>
+                  @for(genero of GENEROS_LITERARIOS; track genero.value){
+                  <option [value]="genero.value">{{genero.label}}</option>  
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="col-6">
 
-          <div class="mb-3">
-            <label class="form-label">IBSM</label>
-            <input type="text" name="ibsm" formControlName="ibsm" class="form-control" required>
-          </div>
+              <div class="mb-3" formArrayName="categoriaIds">
+                <div class="mb-1">Categorías</div>
 
-          <div class="mb-3">
-            <label class="form-label">Disponibles</label>
-            <input type="number" name="disponibles" formControlName="disponibles" class="form-control" required>
-          </div>
+                @for(categoria of categorias(); track categoria.id; let idx = $index){
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" [formControlName]="idx" value="{{categoria.id}}" [id]="'categoryCheck' + idx">
+                  <label class="form-check-label" [for]="'categoryCheck' + idx">
+                    {{ categoria.nombre }}
+                  </label>
+                </div>
+                }
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Reservados</label>
-            <input type="number" [disabled]="true" name="disponibles" formControlName="disponibles" class="form-control">
-          </div>
+              <div class="mb-3">
+                <label class="form-label">IBSM</label>
+                <input type="text" name="ibsm" formControlName="ibsm" class="form-control" required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Prestados</label>
-            <input type="number" [disabled]="true" name="prestados" formControlName="prestados" class="form-control">
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Disponibles</label>
+                <input type="number" name="disponibles" formControlName="disponibles" class="form-control" required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Perdidos</label>
-            <input type="number" [disabled]="true" name="perdidos" formControlName="perdidos" class="form-control">
+              <div class="mb-3">
+                <label class="form-label">Reservados</label>
+                <input type="number" name="disponibles" formControlName="disponibles" class="form-control">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Prestados</label>
+                <input type="number" name="prestados" formControlName="prestados" class="form-control">
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Perdidos</label>
+                <input type="number" name="perdidos" formControlName="perdidos" class="form-control">
+              </div>
+            </div>
           </div>
 
           <button class="btn btn-success" type="submit" [disabled]="!detalleLibroForm.valid">

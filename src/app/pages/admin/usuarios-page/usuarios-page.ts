@@ -27,6 +27,7 @@ export class UsuariosPage {
       { field: "apellidos" , width: 140},
       { field: "email" },
       { field: "ultimoLogin" },
+      { field: "rolKeys", headerName: "Roles" },
       { field: "id", cellRenderer: GridActions, cellRendererParams: {
         actions: [
           {type: 'edit', btnClass: 'btn-primary', label: 'Editar', action: this.edit.bind(this)},
