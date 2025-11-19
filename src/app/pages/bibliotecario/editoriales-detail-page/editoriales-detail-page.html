@@ -1,1 +1,41 @@
-<p>editoriales-detail-page works!</p>
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h3>Agregar / Editar usuarios</h3>
+
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            {{errorMessage()}}
+          </div>
+        }
+
+        <form id="registerForm" class="mt-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+          <h3 class="section-title">{{ editorial() ? 'Editar una editorial (id: '+ editorial()?.id +')' : 'Agregar una editorial'  }}</h3>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Ciudad</label>
+            <input type="text" name="ciudad" formControlName="ciudad" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">País</label>
+            <input type="text" name="pais" formControlName="pais" class="form-control" required>
+          </div>
+
+          <button class="btn btn-success" type="submit" [disabled]="!form.valid">
+            <i class="fa-solid fa-user-plus"></i> Guardar</button>
+        </form>
+      </div> 
+    </div> 
+
+    
+    <br />
+    <a routerLink="/bibliotecario/editoriales">Volver al listado de editoriales</a>
+
+  </main>

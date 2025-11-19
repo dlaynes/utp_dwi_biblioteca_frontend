@@ -17,6 +17,10 @@ import { ReportesPage } from './pages/admin/reportes-page/reportes-page';
 import { UsuariosDetailPage } from './pages/admin/usuarios-detail-page/usuarios-detail-page';
 import { LibrosPage } from './pages/bibliotecario/libros-page/libros-page';
 import { DetalleLibroPage } from './pages/bibliotecario/detalle-libro-page/detalle-libro-page';
+import { AutoresPage } from './pages/bibliotecario/autores-page/autores-page';
+import { AutoresDetailPage } from './pages/bibliotecario/autores-detail-page/autores-detail-page';
+import { EditorialesDetailPage } from './pages/bibliotecario/editoriales-detail-page/editoriales-detail-page';
+import { EditorialesPage } from './pages/bibliotecario/editoriales-page/editoriales-page';
  
 export const routes: Routes = [
     {
@@ -87,6 +91,22 @@ export const routes: Routes = [
         component: DetalleLibroPage,
         title: 'Detalle de un libro',
     }, {
+        path: 'bibliotecario/autores',
+        component: AutoresPage,
+        title: 'Listado de Autores',
+    }, {
+        path: 'bibliotecario/autores/:id',
+        component: AutoresDetailPage,
+        title: 'Detalle de un autor',
+    }, {
+        path: 'bibliotecario/editoriales',
+        component: EditorialesPage,
+        title: 'Listado de Editoriales',
+    }, {
+        path: 'bibliotecario/editoriales/:id',
+        component: EditorialesDetailPage,
+        title: 'Detalle de una editorial',
+    },{
         path: '*',
         component: NotFoundPage,
         title: 'Página no encontrada'

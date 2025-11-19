@@ -1,1 +1,12 @@
-<p>editoriales-page works!</p>
+  <main class="container my-5" id="mantenimientoEditoriales">
+    <h3 class="section-title">Gestión de editoriales</h3>
+
+    <div class="table-responsive">
+      <ag-grid-angular
+        [rowData]="editoriales()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
+    </div>
+    <br />
+    <div><a class="text-bold" routerLink="/bibliotecario/editoriales/nueva">+ Agregar nueva editorial</a></div>
+  </main>
