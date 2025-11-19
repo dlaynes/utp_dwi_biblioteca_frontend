@@ -7,8 +7,8 @@ export type GridSingleAction = {
   btnClass: string;
   label: string;
   action: (id: number) => void;
+  checkRender: (data: any) => boolean;
 };
-
 
 @Component({
   selector: 'app-grid-actions',

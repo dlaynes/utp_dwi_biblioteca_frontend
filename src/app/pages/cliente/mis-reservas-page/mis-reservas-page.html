@@ -27,6 +27,7 @@
               <strong>Autor:</strong> {{reserva.libro.autor.apellidos}}, {{reserva.libro.autor.nombres}}<br>
               <strong>Año:</strong> {{reserva.libro.publicadoEn}}<br>
               <strong>Fecha de reserva:</strong> {{reserva.fechaReserva}}<br>
+              <strong>Lugar:</strong> {{lugaresPrestamo[reserva.lugarPrestamo]}}<br>
               <strong>Estado:</strong> {{estadosPrestamo[reserva.estadoPrestamo]}}</p>
             @if(reserva.estadoPrestamo === 'reservado'){
             <small>Acerquese al local para retirar el libro.</small><br> 

@@ -7,6 +7,17 @@
     }
 
     <div class="catalog-grid">
+      @if(cargando() || !libros().length){
+        <div class="col-12 text-center py-5">
+          <i class="fa-solid fa-book-open fa-3x text-secondary mb-3"></i>
+          @if(cargando()){
+            <h5 class="text-muted">Cargando...</h5>
+          } @else if (!libros().length){
+            <h5 class="text-muted">No se encontraron libros en la categoría.</h5>
+          }
+        </div>
+      }
+
       @for(libro of libros(); track libro.id){
         <div class="catalog-item">
           <div class="cover position-relative">

@@ -1,1 +1,12 @@
-<p>prestamos-page works!</p>
+  <main class="container my-5" id="mantenimientoPrestamos">
+    <h3 class="section-title">Gestión de Préstamos y Reservas</h3>
+    <div class="table-responsive">
+      <ag-grid-angular
+        [rowData]="prestamos()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
+    </div>
+
+    <br />
+    <div><a class="text-bold" routerLink="/bibliotecario/libros/nuevo">+ Agregar nuevo libro</a></div>
+  </main>

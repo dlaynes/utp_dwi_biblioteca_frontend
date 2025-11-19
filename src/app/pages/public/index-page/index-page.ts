@@ -10,7 +10,7 @@ import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-index-page',
-  imports: [RouterLink, DatePipe],
+  imports: [DatePipe],
   templateUrl: './index-page.html',
   styleUrl: './index-page.scss',
   standalone: true,

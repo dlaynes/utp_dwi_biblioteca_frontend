@@ -6,11 +6,16 @@ import { PrestamosService } from '../../../services/cliente/prestamos-service';
 import { Prestamo } from '../../../domain/prestamo';
 import { EstadoPrestamo, ESTADOS_PRESTAMO } from '../../../domain/estado-prestamo';
 import { RouterLink } from '@angular/router';
+import { LUGARES_PRESTAMO, LugarPrestamo } from '../../../domain/lugar-prestamo';
 
 const estadosPrestamo : Partial<Record<EstadoPrestamo, string>> = {};
+const lugaresPrestamo : Partial<Record<LugarPrestamo, string>> = {};
 
 ESTADOS_PRESTAMO.forEach(it => {
   estadosPrestamo[it.value] = it.label;
+});
+LUGARES_PRESTAMO.forEach(it => {
+  lugaresPrestamo[it.value] = it.label;
 });
 
 @Component({
@@ -27,6 +32,8 @@ export class MisReservasPage {
   cargando = signal(true);
 
   estadosPrestamo = estadosPrestamo;
+
+  lugaresPrestamo = lugaresPrestamo;
 
   constructor(
     private authState: AuthState,

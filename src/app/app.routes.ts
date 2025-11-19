@@ -22,6 +22,8 @@ import { AutoresDetailPage } from './pages/bibliotecario/autores-detail-page/aut
 import { EditorialesDetailPage } from './pages/bibliotecario/editoriales-detail-page/editoriales-detail-page';
 import { EditorialesPage } from './pages/bibliotecario/editoriales-page/editoriales-page';
 import { DetalleLibroPage as PublicDetalleLibroPage }  from './pages/public/detalle-libro-page/detalle-libro-page';
+import { PrestamosPage } from './pages/bibliotecario/prestamos-page/prestamos-page';
+import { PrestamosDetailPage } from './pages/bibliotecario/prestamos-detail-page/prestamos-detail-page';
  
 export const routes: Routes = [
     {
@@ -111,7 +113,15 @@ export const routes: Routes = [
         path: 'bibliotecario/editoriales/:id',
         component: EditorialesDetailPage,
         title: 'Detalle de una editorial',
-    },{
+    }, {
+        path: 'bibliotecario/prestamos',
+        component: PrestamosPage,
+        title: 'Listado de Préstamos',
+    }, {
+        path: 'bibliotecario/prestamos/:id',
+        component: PrestamosDetailPage,
+        title: 'Detalle de un préstamo'
+    }, {
         path: '*',
         component: NotFoundPage,
         title: 'Página no encontrada'

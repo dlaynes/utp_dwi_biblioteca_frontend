@@ -1,3 +1,5 @@
 @for(action of Object.values(actions()); track action.type;) {
-    <button [class]="'btn btn-sm ' + action.btnClass" (click)="doAction(action.type)">{{ action.label }}</button>
+    @if(!action?.checkRender || action?.checkRender(params.data)){
+        <button [class]="'btn btn-sm ' + action.btnClass" (click)="doAction(action.type)">{{ action.label }}</button>
+    }
 }

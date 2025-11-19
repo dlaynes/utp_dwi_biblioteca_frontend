@@ -11,7 +11,7 @@ import { LUGARES_PRESTAMO } from '../../../domain/lugar-prestamo';
 
 @Component({
   selector: 'app-detalle-libro-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './detalle-libro-page.html',
   styleUrl: './detalle-libro-page.scss'
 })
