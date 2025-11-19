@@ -47,5 +47,6 @@ export class Header {
 
   logout(){
     this.authState.logout();
+    this.router.navigateByUrl('/login');
   }
 }

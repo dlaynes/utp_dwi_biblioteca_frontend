@@ -67,10 +67,18 @@ export class DetalleLibroPage implements OnInit {
     if(!lib?.id) return;
     const form = {...this.form?.value};
 
-    const res = await lastValueFrom(this.prestamosService.misPrestamosReservar({
-      lugarPrestamo: form.lugarPrestamo,
-      libroId: lib.id
-    }));
+    try {
+      const res = await lastValueFrom(this.prestamosService.misPrestamosReservar({
+        lugarPrestamo: form.lugarPrestamo,
+        libroId: lib.id
+      }));
+      if(res){
+        alert("Solicitud de reserva enviada con éxito!");
+        this.router.navigateByUrl('/cliente/mis-reservas');
+      }
 
+    } catch (e){
+      console.log(e);
+    }
   }
 }
