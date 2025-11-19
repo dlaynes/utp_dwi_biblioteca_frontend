@@ -29,7 +29,6 @@ export class LibrosPage {
       { field: "id", width: 240, cellRenderer: GridActions, cellRendererParams: {
         actions: [
           {type: 'edit', btnClass: 'btn-primary', label: 'Editar', action: this.edit.bind(this)},
-          {type: 'inventory', btnClass: 'btn-info', label: 'Inventario', action: this.verInventario.bind(this)},
           {type: 'delete', btnClass: 'btn-danger', label: 'Eliminar', action: this.delete.bind(this)},
         ],
         suppressMouseEventHandling: () => true,
@@ -57,12 +56,8 @@ export class LibrosPage {
     console.log("Borrando libro", id);
   }
 
-  verInventario(id: number){
-    console.log("Ver nventario de libro", id);
-  }
-
   private async cargarLibros(): Promise<void> {
-    const res = await lastValueFrom(this.libroService.lista());
+    const res = await lastValueFrom(this.libroService.listaBibliotecario());
     this.libros.set(res); // Actualizamos el signal. La vista se actualizará automáticamente.
   }
 }

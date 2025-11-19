@@ -10,7 +10,7 @@
       @for(libro of libros(); track libro.id){
         <div class="catalog-item">
           <div class="cover position-relative">
-            <img [src]="libro.imagen || 'https://picsum.photos/300/200?random=' + (libro.id + 50)">
+            <img [src]="libro.imagen || 'https://picsum.photos/300/200?random=' + (libro.id + 51)">
             <div class="overlay">{{libro.titulo}} &nbsp;<br><small>{{libro.autor.apellidos + ', ' + libro.autor.nombres}} (2018)</small></div>
           </div>
           <button (click)="verDetalle(libro.id)" class="btn btn-outline-primary btn-sm mt-2 select-btn w-100">Ver Detalle</button>

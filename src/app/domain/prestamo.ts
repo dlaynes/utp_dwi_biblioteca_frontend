@@ -1,9 +1,10 @@
+import { EstadoPrestamo } from "./estado-prestamo";
 import { Libro } from "./libro";
 import { Usuario } from "./usuario";
 
 export interface Prestamo {
     id: number;
-    estadoPrestamo: string;
+    estadoPrestamo: EstadoPrestamo;
     lugarPrestamo: string;
     fechaRegistro: string;
     libro: Libro;

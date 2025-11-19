@@ -19,6 +19,10 @@ export class LibrosService {
     return this.http.get<Libro[]>(this.base);
   }
 
+  listaBibliotecario(): Observable<Libro[]> {
+    return this.http.get<Libro[]>(BASE_URL + 'bibliotecario/libros');
+  }
+
   detalle(id: number): Observable<Libro> {
     return this.http.get<Libro>(`${this.base}/${id}`);
   }

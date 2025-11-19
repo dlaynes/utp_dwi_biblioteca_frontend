@@ -1,15 +1,49 @@
   <!-- Contenido principal -->
   <main class="container py-5 flex-grow-1">
     <div class="text-center mb-4">
-      <h2>📚 Lista de Libros Reservados</h2>
-      <p class="text-muted">Consulta y gestiona tus libros seleccionados antes de confirmar la reserva.</p>
+      <h2>📚 Historial de Reservas</h2>
+      <p class="text-muted">Consulta y gestiona tus libros reservados y prestados.</p>
     </div>
 
-    <div id="reservasList" class="row g-4"></div>
+    <div class="row g-4">
+      @if(cargando() || !prestamos().length){
+        <div class="col-12 text-center py-5">
+          <i class="fa-solid fa-book-open fa-3x text-secondary mb-3"></i>
+          @if(cargando()){
+            <h5 class="text-muted">Cargando...</h5>
+          } @else if (!prestamos().length){
+            <h5 class="text-muted">No tienes libros reservados o prestados aún.</h5>
+          }
+        </div>
+      }
+  
+      @for (reserva of prestamos(); track reserva.id; let idx = $index){
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 h-100">
+          <img [src]="reserva.libro.imagen || 'https://picsum.photos/300/200?random=' + (reserva.libro.id + 51)" class="card-img-top" [alt]="reserva.libro.titulo" />
+          <div class="card-body d-flex flex-column">
+            <h6 class="card-title fw-bold text-dark"><a [routerLink]="'/detalle-libro/' + reserva.libro.id">{{reserva.libro.titulo}}</a></h6>
+            <p class="card-text small mb-3">
+              <strong>Autor:</strong> {{reserva.libro.autor.apellidos}}, {{reserva.libro.autor.nombres}}<br>
+              <strong>Año:</strong> {{reserva.libro.publicadoEn}}<br>
+              <strong>Fecha de reserva:</strong> {{reserva.fechaReserva}}<br>
+              <strong>Estado:</strong> {{estadosPrestamo[reserva.estadoPrestamo]}}</p>
+            @if(reserva.estadoPrestamo === 'reservado'){
+            <small>Acerquese al local para retirar el libro.</small><br> 
+            <button class="btn btn-outline-danger btn-sm mt-auto" (click)="cancelarReserva(reserva.id)">
+              <i class="fa-solid fa-trash"></i> Cancelar reserva
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+      }
+
+    </div>
 
     <div class="text-center mt-5">
-      <button id="btnReservar" class="btn btn-success px-4 py-2 shadow-sm">
-        <i class="fa-solid fa-check"></i> Realizar reserva
-      </button>
+      <a id="btnReservar" routerLink="/colecciones" class="btn btn-success px-4 py-2 shadow-sm">
+        <i class="fa-solid fa-plus"></i> Realizar nueva reserva
+      </a>
     </div>
   </main>
