@@ -1,1 +1,12 @@
-<p>autores-page works!</p>
+  <main class="container my-5" id="mantenimientoAutores">
+    <h3 class="section-title">Gestión de autores</h3>
+
+    <div class="table-responsive">
+      <ag-grid-angular
+        [rowData]="autores()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
+    </div>
+    <br />
+    <div><a class="text-bold" routerLink="/bibliotecario/autores/nuevo">+ Agregar nuevo autor</a></div>
+  </main>

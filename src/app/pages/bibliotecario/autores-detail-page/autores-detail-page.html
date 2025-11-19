@@ -1,1 +1,46 @@
-<p>autores-detail-page works!</p>
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h3>Agregar / Editar autores</h3>
+
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            {{errorMessage()}}
+          </div>
+        }
+
+        <form id="registerForm" class="mt-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+          <h3 class="section-title">{{ autor() ? 'Editar un autor (id: '+ autor()?.id +')' : 'Agregar una editorial'  }}</h3>
+
+          <div class="mb-3">
+            <label class="form-label">Nombres</label>
+            <input type="text" name="nombres" formControlName="nombres" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Apellidos</label>
+            <input type="text" name="apellidos" formControlName="apellidos" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nacionalidad</label>
+            <input type="text" name="nacionalidad" formControlName="nacionalidad" class="form-control" required>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Comentarios</label>
+            <textarea name="comentarios" formControlName="comentarios" class="form-control" required></textarea>
+          </div>
+
+          <button class="btn btn-success" type="submit" [disabled]="!form.valid">
+            <i class="fa-solid fa-user-plus"></i> Guardar</button>
+        </form>
+      </div> 
+    </div> 
+
+    
+    <br />
+    <a routerLink="/bibliotecario/autores">Volver al listado de autores</a>
+
+  </main>
