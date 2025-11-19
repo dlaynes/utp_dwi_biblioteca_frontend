@@ -37,17 +37,27 @@ export class PrestamosPage implements OnInit {
   lugaresPrestamo = lugaresPrestamo;
 
   colDefs: ColDef[] = [
-      { field: "estadoPrestamo", width: 130, valueFormatter: params => params.value?.estadoPrestamo},
+      { field: "estadoPrestamo", width: 110, headerName: 'Estado', valueFormatter: params => params.value?.estadoPrestamo},
+      { field: "cliente", width: 130, valueFormatter: params => params.data?.cliente?.nombres + ' ' + params.data?.cliente?.apellidos},
       { field: "lugarPrestamo", width: 130, valueFormatter: params => params.value?.lugarPrestamo},
-      { field: "fechaReserva", width: 130},
-      { field: "fechaPrestamo", width: 130},
-      { field: "fechaRetorno", width: 130},
-      { field: "advertencia", width: 120},
-      { field: "id", width: 240, cellRenderer: GridActions, cellRendererParams: {
+      { field: "fechaReserva", width: 120},
+      { field: "fechaPrestamo", width: 120},
+      { field: "fechaRetorno", width: 120},
+      { field: "advertencia", headerName: "Alerta?", width: 80},
+      { field: "id", width: 286, cellRenderer: GridActions, cellRendererParams: {
         actions: [
-          {type: 'edit', btnClass: 'btn-primary', label: 'Editar', action: this.edit.bind(this)},
-          {type: 'cancelar', btnClass: 'btn-warning', label: 'Editar', action: this.cancelarReserva.bind(this), checkRender: (data: Prestamo)=>{
+          {type: 'view', btnClass: 'btn-light', label: 'Ver', action: this.verDetalle.bind(this)},
+          {type: 'prestar', btnClass: 'btn-info', label: 'Prestar', action: this.prestarLibro.bind(this), checkRender: (data: Prestamo)=>{
             return data.estadoPrestamo === 'reservado';
+          }},
+          {type: 'cancelar', btnClass: 'btn-warning', label: 'Cancelar', action: this.cancelarReserva.bind(this), checkRender: (data: Prestamo)=>{
+            return data.estadoPrestamo === 'reservado';
+          }},
+          {type: 'recibir', btnClass: 'btn-secondary', label: 'Recibir', action: this.recibirLibro.bind(this), checkRender: (data: Prestamo)=>{
+            return data.estadoPrestamo === 'prestado';
+          }},
+          {type: 'perdido', btnClass: 'btn-dark', label: 'Perdido', action: this.marcarPerdido.bind(this), checkRender: (data: Prestamo)=>{
+            return data.estadoPrestamo === 'prestado';
           }},
           {type: 'delete', btnClass: 'btn-danger', label: 'Eliminar', action: this.delete.bind(this)},
         ],
@@ -67,20 +77,54 @@ export class PrestamosPage implements OnInit {
   }
 
   async cargarPrestamos(){
-    const prestamos = await lastValueFrom(this.prestamosService.lista());
-    this.prestamos.set(prestamos);
-    this.cargando.set(false);
-  }
-
-  cancelarReserva(id: number){
     try {
-
+      const prestamos = await lastValueFrom(this.prestamosService.lista());
+      this.prestamos.set(prestamos);
+      this.cargando.set(false);
     } catch(e){
-
+      console.log("Hubo un error al listar los préstamos", e)
     }
   }
+
+  async cancelarReserva(id: number){
+    if(!confirm('¿Está seguro de querer cancelar la reserva?')){
+      return;
+    }
+    try {
+      const res = await lastValueFrom(this.prestamosService.cancelarPrestamo(id));
+      if(res){
+        alert("Reserva cancelada");
+        await this.cargarPrestamos();
+      }
+    } catch(e){
+      console.log(e);
+    }
+  }
+
+  async marcarPerdido(id: number){
+    if(!confirm('¿Está seguro de querer marcar el préstamo como perdido?')){
+      return;
+    }
+    try {
+      const res = await lastValueFrom(this.prestamosService.marcarPerdido(id));
+      if(res){
+        alert("Préstamo marcado como perdido");
+        await this.cargarPrestamos();
+      }
+    } catch(e){
+      console.log(e);
+    }
+  }
+
+  prestarLibro(id: number){
+    this.router.navigate(['/bibliotecario/prestar-libro/', id], {state: this.prestamos().find(l => l.id === id)});
+  }
+
+  recibirLibro(id: number){
+    this.router.navigate(['/bibliotecario/recibir-libro/', id], {state: this.prestamos().find(l => l.id === id)});
+  }
     
-  edit(id: number){
+  verDetalle(id: number){
     this.router.navigate(['/bibliotecario/prestamos', id], {state: this.prestamos().find(l => l.id === id)});
   }
 

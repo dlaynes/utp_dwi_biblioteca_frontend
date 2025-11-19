@@ -24,36 +24,35 @@ import { EditorialesPage } from './pages/bibliotecario/editoriales-page/editoria
 import { DetalleLibroPage as PublicDetalleLibroPage }  from './pages/public/detalle-libro-page/detalle-libro-page';
 import { PrestamosPage } from './pages/bibliotecario/prestamos-page/prestamos-page';
 import { PrestamosDetailPage } from './pages/bibliotecario/prestamos-detail-page/prestamos-detail-page';
+import { PrestarLibroFormPage } from './pages/bibliotecario/prestar-libro-form-page/prestar-libro-form-page';
+import { RecibirLibroFormPage } from './pages/bibliotecario/recibir-libro-form-page/recibir-libro-form-page';
  
 export const routes: Routes = [
     {
         path: '',
         component: IndexPage,
         title: 'Inicio'
-    },
-    {
+    }, {
         path: 'categoria/:slug',
         component: CategoriaPage,
         title: 'Libros por categoría'
-    },
-    {
+    }, {
         path: 'login',
         component: LoginPage,
         title: 'Iniciar sesión'
-    },
-    {
+    }, {
         path: 'registro',
         component: RegistroPage,
         title: 'Crear una cuenta'
-    },{
+    }, {
         path: 'cliente/mis-reservas',
         component: MisReservasPage,
         title: 'Reservas realizadas'
-    },{
+    }, {
         path: 'acerca-de',
         component: AcercaDePage,
         title: 'Acerca de la Biblioteca'
-    },{
+    }, {
         path: 'catalogo',
         component: CatalogoPage,
         title: 'Catálogo',
@@ -66,22 +65,22 @@ export const routes: Routes = [
         component: ContactoPage,
         title: 'Contáctanos',
     },{
-        path: 'detalle-libro/:id',
+         path: 'detalle-libro/:id',
         component: PublicDetalleLibroPage,
         title: 'Detalle de un libro',
     }, {
         path: 'admin',
         component: DashboardAdminPage,
         title: 'Dashboard',
-    },{
+    }, {
         path: 'admin/usuarios',
         component: UsuariosPage,
         title: 'Listado de Usuarios'
-    },{
+    }, {
         path: 'admin/usuarios/:id',
         component: UsuariosDetailPage,
         title: 'Detalle de un usuario'
-    },{
+    }, {
         path: 'admin/reportes',
         component: ReportesPage,
         title: 'Listado de Préstamos'
@@ -122,9 +121,16 @@ export const routes: Routes = [
         component: PrestamosDetailPage,
         title: 'Detalle de un préstamo'
     }, {
+        path: 'bibliotecario/prestar-libro/:id',
+        component: PrestarLibroFormPage,
+        title: 'Prestar un libro'
+    }, {
+        path: 'bibliotecario/recibir-libro/:id',
+        component: RecibirLibroFormPage,
+        title: 'Recibir un libro prestado'
+    }, {
         path: '*',
         component: NotFoundPage,
         title: 'Página no encontrada'
     }
-
 ];

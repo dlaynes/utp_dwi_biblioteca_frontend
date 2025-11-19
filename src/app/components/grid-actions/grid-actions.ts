@@ -7,9 +7,10 @@ export type GridSingleAction = {
   btnClass: string;
   label: string;
   action: (id: number) => void;
-  checkRender: (data: any) => boolean;
+  checkRender?: (data: any) => boolean;
 };
 
+// Utilitario para mostrar botones de Acción en una tabla Ag Grid
 @Component({
   selector: 'app-grid-actions',
   imports: [],
@@ -34,7 +35,6 @@ export class GridActions implements ICellRendererAngularComp {
 
   agInit(params: ICellRendererParams<any, any, any>): void {
     this.params = params;
-    console.log("params", this.params);
     this.checkParams();
   }
 
