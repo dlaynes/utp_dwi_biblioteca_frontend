@@ -1,9 +1,12 @@
   <main class="container my-5" id="adminUsuarios">
     <h3 class="section-title">Gestión de Usuarios</h3>
+
     <div class="table-responsive">
       <ag-grid-angular
         [rowData]="usuarios()"
         [columnDefs]="colDefs"
         [pagination]="true" />
     </div>
+    <br />
+    <div><a class="text-bold" routerLink="/admin/usuarios/nuevo">+ Agregar nuevo usuario</a></div>
   </main>

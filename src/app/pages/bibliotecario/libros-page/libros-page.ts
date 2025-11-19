@@ -8,11 +8,11 @@ import type { ColDef } from 'ag-grid-community'; // Column Definition Type Inter
 import { LibrosService } from '../../../services/publico/libros-service';
 import { lastValueFrom } from 'rxjs';
 import { GridActions } from '../../../components/grid-actions/grid-actions';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-libros-page',
-  imports: [AgGridAngular],
+  imports: [RouterLink, AgGridAngular],
   templateUrl: './libros-page.html',
   styleUrl: './libros-page.scss',
   standalone: true,

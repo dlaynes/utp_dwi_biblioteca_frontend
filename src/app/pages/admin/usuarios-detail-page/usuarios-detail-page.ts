@@ -86,18 +86,6 @@ export class UsuariosDetailPage implements OnInit {
       return;
     }
     this.sendForm();
-
-    /*
-    try {
-      const res = await lastValueFrom(this.authService.register(this.userForm.value as Usuario));
-      if(res){
-        alert("Su cuenta ha sido creada satisfactoriamente!");
-        this.router.navigateByUrl('/login');
-      }
-    } catch(err: any){
-      this.errorMessage.set(err?.message);
-    }
-    */
   }
 
   async sendForm(){

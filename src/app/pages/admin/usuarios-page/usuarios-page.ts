@@ -7,11 +7,12 @@ import type { ColDef } from 'ag-grid-community'; // Column Definition Type Inter
 import { AuthState } from '../../../state/auth-state';
 import { lastValueFrom } from 'rxjs';
 import { GridActions } from '../../../components/grid-actions/grid-actions';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { RolesCell } from '../../../components/roles-cell/roles-cell';
 
 @Component({
   selector: 'app-usuarios-page',
-  imports: [AgGridAngular],
+  imports: [RouterLink, AgGridAngular],
   templateUrl: './usuarios-page.html',
   styleUrl: './usuarios-page.scss',
   standalone: true,
@@ -27,7 +28,7 @@ export class UsuariosPage {
       { field: "apellidos" , width: 140},
       { field: "email" },
       { field: "ultimoLogin" },
-      { field: "rolKeys", headerName: "Roles" },
+      { field: "rolKeys", headerName: "Roles", cellRenderer: RolesCell },
       { field: "id", cellRenderer: GridActions, cellRendererParams: {
         actions: [
           {type: 'edit', btnClass: 'btn-primary', label: 'Editar', action: this.edit.bind(this)},
