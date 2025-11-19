@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthState } from '../../state/auth-state';
@@ -13,13 +13,13 @@ import { Usuario } from '../../domain/usuario';
 })
 export class Header {
 
-  esAdmin = false;
+  esAdmin = signal(false);
 
-  esBibliotecario = false;
+  esBibliotecario =signal(false);
 
-  esCliente = false;
+  esCliente = signal(false);
 
-  usuario : Usuario|null = null;
+  usuario = signal<Usuario|null>(null);
 
   path: string = '';
 
@@ -33,14 +33,14 @@ export class Header {
     });
 
     effect(()=>{
-      this.usuario = this.authState.user();
+      this.usuario.set(this.authState.user());
     })
 
     effect(()=>{
       const roles = this.authState.roles();
-      this.esAdmin = this.authState.esAdmin(roles);
-      this.esBibliotecario = this.authState.esBibliotecario(roles);
-      this.esCliente = this.authState.esCliente(roles);
+      this.esAdmin.set(this.authState.esAdmin(roles));
+      this.esBibliotecario.set(this.authState.esBibliotecario(roles));
+      this.esCliente.set(this.authState.esCliente(roles));
     });
 
   }

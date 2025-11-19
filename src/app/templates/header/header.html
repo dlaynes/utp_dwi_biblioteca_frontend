@@ -14,63 +14,46 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      @if(path.indexOf('admin') !== -1){
-        <div class="collapse navbar-collapse" id="navAdmin">
-          <ul class="navbar-nav ms-auto">
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          @if(esCliente()){
+          <li class="nav-item"><a class="nav-link" routerLink="cliente/mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
+          } @else if (esBibliotecario()){
+            <li class="nav-item"><a class="nav-link active" routerLink="bibliotecario">Dashboard</a></li>
+          } @else if (esAdmin()){
             <li class="nav-item"><a class="nav-link" routerLink="admin">Dashboard</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="admin/usuarios">Usuarios</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="admin/reportes">Reportes</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/">Volver al sitio</a></li>
-          </ul>
-        </div>
-      } @else if(path.indexOf('bibliotecario') !== -1){
-        <div class="collapse navbar-collapse" id="navBiblio">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link active" routerLink="bibliotecario">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="bibliotecario/libros">Libros</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="bibliotecario/prestamos">Reservas</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="bibliotecario/editoriales">Editoriales</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="bibliotecario/autores">Autores</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/">Volver al sitio</a></li>
-          </ul>
-        </div>
-      } @else if(path.indexOf('cliente') !== -1){
-        <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link active" routerLink="cliente/mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
-          </ul>
-        </div>
-      } @else {
-        <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="navbar-nav ms-auto align-items-lg-center">
-            <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="acerca-de">Acerca de</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="catalogo">Catálogo</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="contacto">Contacto</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="colecciones">Colecciones nuevas</a></li>
-            @if(esCliente){
-            <li class="nav-item"><a class="nav-link" routerLink="cliente/mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
-            } @else if (esBibliotecario){
-              <li class="nav-item"><a class="nav-link active" routerLink="bibliotecario">Dashboard</a></li>
-            } @else if (esAdmin){
-              <li class="nav-item"><a class="nav-link" routerLink="admin">Dashboard</a></li>
-            }
-
-            @if(!esCliente && !esBibliotecario && !esAdmin){
-            <li class="nav-item ms-3" id="nav-auth">
-              <a class="btn btn-outline-light me-2" routerLink="login"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a>
-              <a class="btn btn-gold" routerLink="registro"><i class="fa-solid fa-user-plus"></i> Regístrate</a>
-            </li>
-            } @else {
+          }
+          @if(esBibliotecario() || esAdmin()){
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Mantenimiento
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="bibliotecario/libros">Libros</a></li>
+              <li><a class="dropdown-item" routerLink="bibliotecario/editoriales">Editoriales</a></li>
+              <li><a class="dropdown-item" routerLink="bibliotecario/autores">Autores</a></li>
+            </ul>
+          </li>
+          }
+          <li class="nav-item"><a class="nav-link" routerLink="bibliotecario/prestamos">Préstamos</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="acerca-de">Acerca de</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="contacto">Contacto</a></li>
+          @if(!esCliente() && !esBibliotecario() && !esAdmin()){
+          <li class="nav-item ms-3" id="nav-auth">
+            <a class="btn btn-outline-light me-2" routerLink="login"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a>
+            <a class="btn btn-gold" routerLink="registro"><i class="fa-solid fa-user-plus"></i> Regístrate</a>
+          </li>
+          } @else {
             <li class="nav-item" id="nav-welcome">
-                <span class="nav-link welcome-text">Bienvenido {{usuario ? usuario.nombres : "-"}}</span>
-                <button class="btn btn-outline-light btn-sm ms-2" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
-              </li>
-            }
- 
-          </ul>
-        </div>
-      }
+              <strong class="nav-link welcome-text">Bienvenido {{usuario() ? usuario()?.nombres : "-"}}</strong>
+            </li>
+            <li>
+              <button class="btn btn-outline-light btn-sm ms-2" (click)="logout()" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </li>
+          }
+
+        </ul>
+      </div>
     </div>
   </nav>

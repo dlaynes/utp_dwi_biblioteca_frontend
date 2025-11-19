@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Locales } from './locales';
+import { DetalleLibroPage } from './detalle-libro-page';
 
-describe('Locales', () => {
-  let component: Locales;
-  let fixture: ComponentFixture<Locales>;
+describe('DetalleLibroPage', () => {
+  let component: DetalleLibroPage;
+  let fixture: ComponentFixture<DetalleLibroPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Locales]
+      imports: [DetalleLibroPage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Locales);
+    fixture = TestBed.createComponent(DetalleLibroPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

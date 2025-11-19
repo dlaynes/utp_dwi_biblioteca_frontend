@@ -23,6 +23,10 @@ export class LibrosService {
     return this.http.get<Libro>(`${this.base}/${id}`);
   }
 
+  deCategoria(slug: string): Observable<Libro[]> {
+    return this.http.get<Libro[]>(`${this.base}/categoria/${slug}`);
+  }
+
   crear(data: Libro): Observable<Libro> {
     return this.http.post<Libro>(BASE_URL+'bibliotecario/libros', data);
   }

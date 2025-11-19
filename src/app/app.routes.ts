@@ -21,6 +21,7 @@ import { AutoresPage } from './pages/bibliotecario/autores-page/autores-page';
 import { AutoresDetailPage } from './pages/bibliotecario/autores-detail-page/autores-detail-page';
 import { EditorialesDetailPage } from './pages/bibliotecario/editoriales-detail-page/editoriales-detail-page';
 import { EditorialesPage } from './pages/bibliotecario/editoriales-page/editoriales-page';
+import { DetalleLibroPage as PublicDetalleLibroPage }  from './pages/public/detalle-libro-page/detalle-libro-page';
  
 export const routes: Routes = [
     {
@@ -62,6 +63,10 @@ export const routes: Routes = [
         path: 'contacto',
         component: ContactoPage,
         title: 'Contáctanos',
+    },{
+        path: 'detalle-libro/:id',
+        component: PublicDetalleLibroPage,
+        title: 'Detalle de un libro',
     }, {
         path: 'admin',
         component: DashboardAdminPage,

@@ -3,14 +3,16 @@ import { BASE_URL } from '../config';
 import { HttpClient } from '@angular/common/http';
 import { Prestamo } from '../../domain/prestamo';
 import { Observable } from 'rxjs';
+import { LugarPrestamo } from '../../domain/lugar-prestamo';
 
 export type ReservarPrestamoRequest = {
-  lugarPrestamo: string;
-  inventarioLibroId: number;
+  lugarPrestamo: LugarPrestamo;
+  libroId: number;
 };
 
 export type AceptarPrestamoRequest = {
   observacionesEntrega: string;
+  lugarPrestamo: LugarPrestamo;
   fechaEsperadaDeRetorno: string;
 };
 

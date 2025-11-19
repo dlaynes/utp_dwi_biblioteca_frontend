@@ -31,14 +31,14 @@
       <!-- ÁREAS -->
       <div class="col-lg-8">
         <h5>Seleccione su área temática</h5>
-        <p class="text-muted small">Haz clic en un área para explorar — debes iniciar sesión para acceder a los recursos.</p>
+        <p class="text-muted small">Haz clic en un área para explorar — debes iniciar sesión para poder realizar una reserva.</p>
 
         <div class="areas-grid mt-3">
           @if(cargandoCategorias()){
             <div>Cargando categorías...</div>
           } @else {
             @for (categoria of categorias(); track categoria.id) {
-              <a class="area-btn" [routerLink]="'categoria/'+categoria.slug">
+              <a class="area-btn" (click)="navegarACategoria(categoria.slug)">
                 <span [class]="categoria.color"><i [class]="categoria.icono"></i></span> {{categoria.nombre}}
               </a> 
             } @empty {

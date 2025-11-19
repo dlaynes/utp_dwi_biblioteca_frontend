@@ -1,5 +1,5 @@
 import { Component, OnInit, WritableSignal, signal} from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CategoriasService } from '../../../services/publico/categorias-service';
 import { EventosService } from '../../../services/publico/eventos-service';
 import { Categoria } from '../../../domain/categoria';
@@ -31,7 +31,8 @@ export class IndexPage implements OnInit {
 
   constructor(
     private categoriaService: CategoriasService,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    private router: Router,
   ){
     TIPOS_EVENTO.forEach(it => {
       this.tiposEvento[it.value] = it.label;
@@ -53,5 +54,9 @@ export class IndexPage implements OnInit {
   ngOnInit(): void {
     this.cargarCategorias();
     this.cargarEventos();
+  }
+
+  navegarACategoria(slug: string){
+    this.router.navigate(['/categoria/', slug], {state: this.categorias().find(l => l.slug === slug)});
   }
 }

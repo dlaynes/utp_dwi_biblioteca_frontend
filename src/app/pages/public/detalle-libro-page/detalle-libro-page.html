@@ -1,0 +1,62 @@
+  <main class="container my-5 flex-grow-1">
+    <div class="row g-4 justify-content-center">
+
+      <!-- ÁREAS -->
+      <div class="col-lg-8">
+        <h5>Datos del libro</h5>
+        @if(!usuario()){
+        <p class="text-muted small">Debes iniciar sesión para poder realizar una reserva.</p>
+        }
+
+        <div class="catalog-item">
+          <div class="cover position-relative">
+            <img [src]="libro()?.imagen || 'https://picsum.photos/300/200?random=48'">
+            <div class="overlay">{{libro()?.titulo}}</div>
+          </div>
+        </div>
+
+        <div class="areas-grid mt-3">
+            @if(libro()){
+                <p>
+                    <strong>Título:</strong> {{libro()?.titulo}}<br>
+                    <strong>Publicado en:</strong> {{libro()?.publicadoEn}}<br />
+                    <strong>Páginas</strong> {{libro()?.paginas}}<br>
+                    <strong>Idioma:</strong> {{libro()?.idioma?.nombre}}<br>
+                    <strong>ISBN:</strong> {{libro()?.ibsm}}<br>
+                </p>
+                <p>
+                    <strong>Autor:</strong> {{libro()?.autor?.apellidos + ', ' + libro()?.autor?.nombres}}<br>
+                    <strong>Editorial:</strong> {{libro()?.editorial?.nombre}}<br>
+                    <strong>Género literario:</strong> {{ generoLiterario()?.label }}<br>
+                    <strong>Resumen:</strong> --<br>
+                </p>
+            }
+        </div>
+      </div>
+
+      <!-- ACTIVIDADES -->
+      <div class="col-lg-3">
+        <div class="card p-3 bookings-card">
+          <h6 class="text-white">Reservas</h6>
+          @if(libro()){
+            <p><strong>Disponibles:</strong> {{libro()?.disponibles}}<br>
+            <strong>Reservados:</strong> {{libro()?.reservados}}</p>
+          }
+
+          @if(usuario()){
+            <form id="reservaLibroForm" class="mt-3" [formGroup]="form" (ngSubmit)="reservar()">
+                <label for="lugarPrestamo">Lugar de préstamo:</label>
+                <select class="form-select" name="lugarPrestamo" formControlName="lugarPrestamo">
+                  @for(pr of LUGARES_PRESTAMO; track pr.value){
+                  <option [value]="pr.value">{{pr.label}}</option>  
+                  }
+                </select>
+                <br />
+                <button class="btn btn-primary">Realizar una reserva</button>
+            </form>
+
+          }
+        </div>
+      </div>
+    </div>
+  </main>
