@@ -1,0 +1,1 @@
+export type EstadoBusqueda = 'inactivo' | 'cargando' | 'resultados'; 

@@ -14,13 +14,13 @@
         </div>
 
         <div class="row g-4 mt-4">
-        @if(cargando() || !libros().length){
+        @if(!libros().length){
             <div class="col-12 text-center py-5">
             <i class="fa-solid fa-book-open fa-3x text-secondary mb-3"></i>
-            @if(cargando()){
+            @if(cargando() === 'cargando'){
                 <h5 class="text-muted">Cargando...</h5>
             } @else if (!libros().length){
-                @if(form.dirty){
+                @if(cargando() === 'resultados'){
                     <h5 class="text-muted">No se encontraron resultados.</h5>
                 } @else {
                     <h5 class="text-muted">Ingrese un criterio de búsqueda.</h5>
@@ -42,6 +42,13 @@
             </div>
         </div>
         }
+
+        <app-pagination
+            [currentPage]="page()"
+            [totalItems]="totalItems()"
+            [itemsPerPage]="size()"
+            (pageChange)="cambiarPagina($event)">
+            </app-pagination>
 
         </div>
     </form>

@@ -134,6 +134,7 @@ export class DetalleLibroPage implements OnInit{
       if(!libro){
         const res = await lastValueFrom(this.libroService.crear(form as Libro));
         alert("El libro ha sido creado!");
+        this.router.navigateByUrl('/biliotecario/libros');
       } else {
         const res = await lastValueFrom(this.libroService.actualizar(libro.id, form as Libro));
         alert("El libro ha sido actualizado!");

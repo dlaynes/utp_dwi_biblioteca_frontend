@@ -93,15 +93,16 @@ main {
   background: transparent;
 }
 .catalog-item img{ width:100%; height:140px; object-fit:cover; display:block; transition: opacity .25s ease, transform .18s ease; }
-.catalog-item .overlay{
+.catalog-item .overlay, .new-cover .overlay{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   color:#fff; font-weight:700; background: rgba(0,0,0,0.6); opacity:0; transition: opacity .2s;
   text-align:center; padding:10px;
 }
 .catalog-item:hover img{ opacity:0.3; transform: scale(1.02); }
-.catalog-item:hover .overlay{ opacity:1; }
+.catalog-item:hover .overlay, .new-cover:hover .overlay{ opacity:1; }
 
 /* New collections hover */
+.new-cover { position: relative; }
 .new-cover img{ width:100%; height:320px; object-fit:cover; border-radius:8px; transition: transform .18s ease; }
 .new-cover:hover img{ transform: scale(1.06); }
 

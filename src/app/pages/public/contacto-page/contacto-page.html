@@ -9,22 +9,22 @@
 
       <div class="col-lg-5">
         <h4>Déjanos tus opiniones</h4>
-        <form id="opinionForm" class="mt-3">
+        <form id="opinionForm" class="mt-3" [formGroup]="form" (ngSubmit)="enviar()">
           <div class="mb-2">
             <label class="form-label">Nombre</label>
-            <input class="form-control" id="opName" required>
+            <input class="form-control" name="nombre" formControlName="nombre" required>
           </div>
           <div class="mb-2">
             <label class="form-label">Correo</label>
-            <input type="email" class="form-control" id="opEmail" required>
+            <input type="email" class="form-control" name="correo" formControlName="correo" required>
           </div>
           <div class="mb-2">
             <label class="form-label">Celular</label>
-            <input class="form-control" id="opPhone" required>
+            <input class="form-control" name="celular" formControlName="celular" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Mensaje</label>
-            <textarea class="form-control" id="opMsg" rows="4" required></textarea>
+            <textarea class="form-control" name="mensaje" formControlName="mensaje" rows="4" required></textarea>
           </div>
           <button class="btn btn-primary" type="submit">Enviar</button>
         </form>

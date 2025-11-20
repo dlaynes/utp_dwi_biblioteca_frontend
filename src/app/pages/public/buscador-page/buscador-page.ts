@@ -7,18 +7,30 @@ import { Libro } from '../../../domain/libro';
 import { Categoria } from '../../../domain/categoria';
 import { lastValueFrom } from 'rxjs';
 import { PagedQuery } from '../../../services/utils/paged-query';
+import { Pagination } from '../../../components/pagination/pagination';
+import { EstadoBusqueda } from '../../../services/utils/types';
 
 @Component({
   selector: 'app-buscador-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, Pagination],
   templateUrl: './buscador-page.html',
   styleUrl: './buscador-page.scss'
 })
 export class BuscadorPage implements OnInit {
 
-  cargando = signal(false);
+  cargando = signal<EstadoBusqueda>('inactivo');
 
   libros = signal<Libro[]>([]);
+
+  page = signal(1);
+
+  size = signal(10);
+
+  sortColumn = signal('id');
+
+  sortDirection = signal<'asc' | 'desc'>('asc');
+
+  totalItems = signal(0);
 
   categorias = signal<Categoria[]>([]);
 
@@ -36,22 +48,18 @@ export class BuscadorPage implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       titulo: [''],
-      pagina: [1],
-      size: [10],
-      sortColumn: ['id'],
-      sortDirection: ['asc']
     });
   }
 
-  async buscar(){
+  async buscar(page = this.page()){
     const v = this.form.value;
 
-    this.cargando.set(true);
+    this.cargando.set('cargando');
     const query = new PagedQuery(
-      v.pagina - 1,
-      v.size,
-      v.sortColumn,
-      v.sortDirection.toLowerCase() as 'asc' | 'desc',
+      page - 1,
+      this.size(),
+      this.sortColumn(),
+      this.sortDirection(),
       {
         titulo: v.titulo
       }
@@ -59,11 +67,17 @@ export class BuscadorPage implements OnInit {
 
     try {
       const res = await lastValueFrom(this.librosService.buscar(query));
-      this.cargando.set(false);
+      this.cargando.set('resultados');
       this.libros.set(res.results);
+      this.totalItems.set(res.totalItems);
     } catch(e){
       console.log("Error búsqueda", e)
     }
+  }
+
+  cambiarPagina(pagina: number){
+    this.page.set(pagina);
+    this.buscar(pagina);
   }
 
 }

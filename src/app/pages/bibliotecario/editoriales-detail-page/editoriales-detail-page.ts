@@ -64,6 +64,7 @@ export class EditorialesDetailPage implements OnInit {
       if(!user){
         const res = await lastValueFrom(this.editorialService.crear(form as Editorial));
         alert("La editorial ha sido creada!");
+        this.router.navigateByUrl('/biliotecario/editoriales');
       } else {
         const res = await lastValueFrom(this.editorialService.actualizar(user.id,form as Editorial));    
         alert("La editorial ha sido actualizada!");

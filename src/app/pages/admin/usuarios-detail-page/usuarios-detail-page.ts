@@ -104,6 +104,7 @@ export class UsuariosDetailPage implements OnInit {
       if(!user){
         const res = await lastValueFrom(this.usuarioService.crear(form as Usuario));
         alert("El usuario ha sido creado!");
+        this.router.navigateByUrl('/admin/usuarios');
       } else {
         const res = await lastValueFrom(this.usuarioService.actualizar(user.id,form as Usuario));    
         alert("El usuario ha sido actualizado!");

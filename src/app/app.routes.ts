@@ -13,7 +13,6 @@ import { CatalogoPage } from './pages/public/catalogo-page/catalogo-page';
 import { ColeccionesPage } from './pages/public/colecciones-page/colecciones-page';
 import { ContactoPage } from './pages/public/contacto-page/contacto-page';
 import { UsuariosPage } from './pages/admin/usuarios-page/usuarios-page';
-import { ReportesPage } from './pages/admin/reportes-page/reportes-page';
 import { UsuariosDetailPage } from './pages/admin/usuarios-detail-page/usuarios-detail-page';
 import { LibrosPage } from './pages/bibliotecario/libros-page/libros-page';
 import { DetalleLibroPage } from './pages/bibliotecario/detalle-libro-page/detalle-libro-page';
@@ -85,10 +84,6 @@ export const routes: Routes = [
         path: 'admin/usuarios/:id',
         component: UsuariosDetailPage,
         title: 'Detalle de un usuario'
-    }, {
-        path: 'admin/reportes',
-        component: ReportesPage,
-        title: 'Listado de Préstamos'
     }, {
         path: 'bibliotecario',
         component: DashboardBibliotecarioPage,

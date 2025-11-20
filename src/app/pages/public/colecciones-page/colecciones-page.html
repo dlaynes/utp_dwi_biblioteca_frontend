@@ -2,33 +2,20 @@
     <h2>Colecciones nuevas</h2>
     <p class="text-muted">Libros recientemente añadidos.</p>
 
+    @if(cargando() === 'cargando'){
+      <div>Cargando...</div>
+    }
+
     <div class="row mt-4">
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <div class="new-cover shadow-sm">
-          <img src="img/libros1.jpg" onerror="this.onerror=null;this.src='https://picsum.photos/280/420?random=31'"
-            alt="">
+      @for(libro of libros(); track libro.id){
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="new-cover shadow-sm">
+            <a [routerLink]="'/detalle-libro/' + libro.id">
+              <img [src]="libro.imagen || 'https://picsum.photos/300/200?random=' + (libro.id + 51)" [alt]="libro.titulo">
+              <span class="overlay">{{libro.titulo}} &nbsp;<br><small>{{libro.autor.apellidos + ', ' + libro.autor.nombres}} (2018)</small></span>
+            </a>
+          </div>
         </div>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <div class="new-cover shadow-sm">
-          <img src="img/libros2.jpg" onerror="this.onerror=null;this.src='https://picsum.photos/280/420?random=32'"
-            alt="">
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <div class="new-cover shadow-sm">
-          <img src="img/libros3.jpg" onerror="this.onerror=null;this.src='https://picsum.photos/280/420?random=33'"
-            alt="">
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <div class="new-cover shadow-sm">
-          <img src="img/libros1.jpg" onerror="this.onerror=null;this.src='https://picsum.photos/280/420?random=34'"
-            alt="">
-        </div>
-      </div>
+      }
     </div>
   </main>
