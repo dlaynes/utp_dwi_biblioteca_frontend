@@ -44,7 +44,7 @@ export class PrestamosPage implements OnInit {
       { field: "fechaPrestamo", width: 120},
       { field: "fechaRetorno", width: 120},
       { field: "advertencia", headerName: "Alerta?", width: 80},
-      { field: "id", width: 286, cellRenderer: GridActions, cellRendererParams: {
+      { field: "id", width: 230, cellRenderer: GridActions, cellRendererParams: {
         actions: [
           {type: 'view', btnClass: 'btn-light', label: 'Ver', action: this.verDetalle.bind(this)},
           {type: 'prestar', btnClass: 'btn-info', label: 'Prestar', action: this.prestarLibro.bind(this), checkRender: (data: Prestamo)=>{
@@ -53,13 +53,12 @@ export class PrestamosPage implements OnInit {
           {type: 'cancelar', btnClass: 'btn-warning', label: 'Cancelar', action: this.cancelarReserva.bind(this), checkRender: (data: Prestamo)=>{
             return data.estadoPrestamo === 'reservado';
           }},
-          {type: 'recibir', btnClass: 'btn-secondary', label: 'Recibir', action: this.recibirLibro.bind(this), checkRender: (data: Prestamo)=>{
+          {type: 'recibir', btnClass: 'btn-success', label: 'Recibir', action: this.recibirLibro.bind(this), checkRender: (data: Prestamo)=>{
             return data.estadoPrestamo === 'prestado';
           }},
           {type: 'perdido', btnClass: 'btn-dark', label: 'Perdido', action: this.marcarPerdido.bind(this), checkRender: (data: Prestamo)=>{
             return data.estadoPrestamo === 'prestado';
           }},
-          {type: 'delete', btnClass: 'btn-danger', label: 'Eliminar', action: this.delete.bind(this)},
         ],
         suppressMouseEventHandling: () => true,
       }, headerName: "Acciones"}
@@ -126,10 +125,6 @@ export class PrestamosPage implements OnInit {
     
   verDetalle(id: number){
     this.router.navigate(['/bibliotecario/prestamos', id], {state: this.prestamos().find(l => l.id === id)});
-  }
-
-  delete(id: number){
-    console.log("Borrando préstamo", id);
   }
 
 }

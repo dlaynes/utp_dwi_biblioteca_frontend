@@ -47,7 +47,7 @@ export class PrestamosService {
   }
 
   misPrestamosCancelarReserva(id: number): Observable<boolean> {
-    return this.http.get<boolean>(this.base + '/mis-solicitudes/cancelar/' + id);
+    return this.http.put<boolean>(this.base + '/mis-solicitudes/cancelar/' + id, {});
   }
 
   misPrestamosReservar(params: ReservarPrestamoRequest): Observable<Prestamo>{

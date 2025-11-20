@@ -1,1 +1,51 @@
-<p>prestamos-detail-page works!</p>
+  <main class="container my-5 flex-grow-1">
+    <div class="row g-4 justify-content-center">
+
+      <!-- ÁREAS -->
+      <div class="col-lg-8">
+        <h5>Datos del préstamo</h5>
+
+        <div class="areas-grid mt-3">
+            @if(prestamo()){
+                <p>
+                    <!-- TODO: enlace -->
+                    <strong>Libro:</strong> <a> {{prestamo()?.libro?.titulo}}</a><br>
+                    <strong>Estado:</strong> {{prestamo()?.estadoPrestamo}}<br />
+                    <strong>Cliente:</strong> {{prestamo()?.cliente?.apellidos}}, {{prestamo()?.cliente?.nombres}}<br>
+                    <strong>Entregado por:</strong> {{prestamo()?.entregadoPor?.apellidos}}, {{prestamo()?.entregadoPor?.nombres}}<br>
+                    <strong>Recepcionado por:</strong> {{prestamo()?.recepcionadoPor?.apellidos}}, {{prestamo()?.recepcionadoPor?.nombres}}<br>
+                </p>
+                <p>
+                    <strong>Fecha reserva:</strong> {{prestamo()?.fechaReserva}}<br>
+                    <strong>Fecha préstamo:</strong> {{prestamo()?.fechaPrestamo}}<br>
+                    <strong>Fecha esperada de retorno:</strong> {{ prestamo()?.fechaEsperadaRetorno }}<br>
+                    <strong>Fecha de retorno:</strong> {{ prestamo()?.fechaRetorno }}<br>
+                    <strong>¿Generó alerta?</strong> {{ prestamo()?.advertencia }}
+                </p>
+            }
+        </div>
+      </div>
+
+      <!-- ACTIVIDADES -->
+      <div class="col-lg-3">
+        <div class="card p-3 bookings-card">
+          <h6 class="text-white">Acciones</h6>
+
+            @if(prestamo()?.estadoPrestamo === "reservado" ){
+                <button (click)="prestarLibro(prestamo()?.id || 0)" class="btn btn-info">Prestar libro</button>
+                <button (click)="cancelarReserva(prestamo()?.id || 0)" class="btn btn-warning">Cancelar reserva</button>
+            }
+            @if(prestamo()?.estadoPrestamo === "prestado" ){
+                <button (click)="recibirLibro(prestamo()?.id || 0)" class="btn btn-success">Prestar libro</button>
+                <button (click)="marcarPerdido(prestamo()?.id || 0)" class="btn btn-dark">Marcar como perdido</button>
+            }
+
+        </div>
+      </div>
+    </div>
+
+    <br />
+    <a routerLink="/bibliotecario/prestamos">Volver al listado de préstamos</a>
+
+  </main>
+
