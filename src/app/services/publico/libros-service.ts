@@ -3,6 +3,7 @@ import { BASE_URL } from '../config';
 import { HttpClient } from '@angular/common/http';
 import { Libro } from '../../domain/libro';
 import { Observable } from 'rxjs';
+import { PagedQuery, PagedResponse } from '../utils/paged-query';
 
 // TODO: Usar el tipo correcto para las solicitures
 
@@ -13,6 +14,10 @@ export class LibrosService {
   private base = BASE_URL + 'publico/libros';
 
   constructor(private http: HttpClient){
+  }
+
+  buscar(query: PagedQuery): Observable<PagedResponse<Libro[]>> {
+    return this.http.get<PagedResponse<Libro[]>>(this.base + '/busqueda' + query.build());
   }
 
   lista(): Observable<Libro[]> {

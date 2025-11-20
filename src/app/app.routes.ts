@@ -26,6 +26,7 @@ import { PrestamosPage } from './pages/bibliotecario/prestamos-page/prestamos-pa
 import { PrestamosDetailPage } from './pages/bibliotecario/prestamos-detail-page/prestamos-detail-page';
 import { PrestarLibroFormPage } from './pages/bibliotecario/prestar-libro-form-page/prestar-libro-form-page';
 import { RecibirLibroFormPage } from './pages/bibliotecario/recibir-libro-form-page/recibir-libro-form-page';
+import { BuscadorPage } from './pages/public/buscador-page/buscador-page';
  
 export const routes: Routes = [
     {
@@ -60,6 +61,10 @@ export const routes: Routes = [
         path: 'colecciones',
         component: ColeccionesPage,
         title: 'Colecciones',
+    }, {
+        path: 'buscar',
+        component: BuscadorPage,
+        title: 'Buscar Libros',
     }, {
         path: 'contacto',
         component: ContactoPage,

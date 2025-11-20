@@ -4,34 +4,37 @@
       <!-- ÁREAS -->
       <div class="col-lg-8">
         <h5>Datos del libro</h5>
-        @if(!usuario()){
-        <p class="text-muted small">Debes iniciar sesión para poder realizar una reserva.</p>
-        }
+          @if(!usuario()){
+          <p class="text-muted small">Debes iniciar sesión para poder realizar una reserva.</p>
+          }
+            
+          @if(cargando()){
+            <p>Cargando...</p>
+          } @else if(libro()){
 
-        <div class="catalog-item">
-          <div class="cover position-relative">
-            <img [src]="libro()?.imagen || 'https://picsum.photos/300/200?random=48'">
-            <div class="overlay">{{libro()?.titulo}}</div>
+          <div class="catalog-item">
+            <div class="cover position-relative">
+              <img [src]="libro()?.imagen || 'https://picsum.photos/300/200?random=48'">
+              <div class="overlay">{{libro()?.titulo}}</div>
+            </div>
           </div>
-        </div>
 
-        <div class="areas-grid mt-3">
-            @if(libro()){
-                <p>
-                    <strong>Título:</strong> {{libro()?.titulo}}<br>
-                    <strong>Publicado en:</strong> {{libro()?.publicadoEn}}<br />
-                    <strong>Páginas</strong> {{libro()?.paginas}}<br>
-                    <strong>Idioma:</strong> {{libro()?.idioma?.nombre}}<br>
-                    <strong>ISBN:</strong> {{libro()?.ibsm}}<br>
-                </p>
-                <p>
-                    <strong>Autor:</strong> {{libro()?.autor?.apellidos + ', ' + libro()?.autor?.nombres}}<br>
-                    <strong>Editorial:</strong> {{libro()?.editorial?.nombre}}<br>
-                    <strong>Género literario:</strong> {{ generoLiterario()?.label }}<br>
-                    <strong>Resumen:</strong> --<br>
-                </p>
-            }
-        </div>
+          <div class="areas-grid mt-3">
+            <p>
+              <strong>Título:</strong> {{libro()?.titulo}}<br>
+              <strong>Publicado en:</strong> {{libro()?.publicadoEn}}<br />
+              <strong>Páginas</strong> {{libro()?.paginas}}<br>
+              <strong>Idioma:</strong> {{libro()?.idioma?.nombre}}<br>
+              <strong>ISBN:</strong> {{libro()?.ibsm}}<br>
+            </p>
+            <p>
+              <strong>Autor:</strong> {{libro()?.autor?.apellidos + ', ' + libro()?.autor?.nombres}}<br>
+              <strong>Editorial:</strong> {{libro()?.editorial?.nombre}}<br>
+              <strong>Género literario:</strong> {{ generoLiterario()?.label }}<br>
+              <strong>Resumen:</strong> --<br>
+            </p>
+          </div>
+        }
       </div>
 
       <!-- ACTIVIDADES -->
@@ -54,9 +57,13 @@
                 <br />
                 <button class="btn btn-primary">Realizar una reserva</button>
             </form>
-
+          } @else {
+            <a routerLink="/login" class="btn btn-primary">Iniciar sesión para reservar</a>
           }
         </div>
       </div>
     </div>
+
+    <br />
+    <a routerLink="/buscar">Navegar a la página de búsqueda</a>
   </main>

@@ -2,6 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthState } from '../../state/auth-state';
+import { Router } from '@angular/router';
 
 // Revisa que el token no haya expirado
 @Injectable({
@@ -9,7 +10,10 @@ import { AuthState } from '../../state/auth-state';
 })
 export class ErrorInterceptor implements HttpInterceptor {
   
-  constructor(private authState: AuthState) {}
+  constructor(
+    private authState: AuthState,
+    private router: Router
+  ) {}
   
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -17,6 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       console.log("Se produjo un error:", error);
       if(error.status == 401){
         this.authState.logout();
+        this.router.navigateByUrl('/');
       }
       const errMsg = error.error?.message || error.statusText;
       return throwError(() => errMsg);

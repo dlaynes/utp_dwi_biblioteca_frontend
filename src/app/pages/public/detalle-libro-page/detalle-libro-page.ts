@@ -1,17 +1,18 @@
 import { Component, effect, OnInit, signal } from '@angular/core';
 import { Usuario } from '../../../domain/usuario';
 import { Libro } from '../../../domain/libro';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthState } from '../../../state/auth-state';
 import { GENEROS_LITERARIOS } from '../../../domain/genero-literario';
 import { PrestamosService } from '../../../services/cliente/prestamos-service';
 import { lastValueFrom } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LUGARES_PRESTAMO } from '../../../domain/lugar-prestamo';
+import { LibrosService } from '../../../services/publico/libros-service';
 
 @Component({
   selector: 'app-detalle-libro-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './detalle-libro-page.html',
   styleUrl: './detalle-libro-page.scss'
 })
@@ -20,6 +21,10 @@ export class DetalleLibroPage implements OnInit {
   usuario = signal<Usuario|null>(null);
 
   libro = signal<Libro|null>(null);
+
+  path = signal('');
+
+  cargando = signal(true);
 
   generoLiterario = signal<typeof GENEROS_LITERARIOS[number]|null>(null);
 
@@ -30,35 +35,48 @@ export class DetalleLibroPage implements OnInit {
   constructor(
     private router: Router,
     private authState: AuthState,
+    private libroService: LibrosService,
     private prestamosService: PrestamosService,
     private fb: FormBuilder,
+    private route: ActivatedRoute
   ){
     effect(()=>{
       const usuario = this.authState.user();
       this.usuario.set(usuario);
     });
+
+    effect(()=>{
+      const path = this.path(); 
+      if(path){
+        this.cargarLibro();
+      }
+    });
   }
 
   ngOnInit(): void {  
+    this.route.url.subscribe(segments => {
+      this.path.set(segments[1].path);
+    });
 
     this.form = this.fb.group({
       lugarPrestamo: ['salon', Validators.required],
     });
-
-    this.cargar();
   }
 
-  private async cargar(): Promise<void> {
-    let extrasData : Libro|null = null;
+  private async cargarLibro(): Promise<void> {
+    const id = parseInt(this.path());
+    if(id){
+      try {
+        const res = await lastValueFrom(this.libroService.detalle(id));
+        this.libro.set(res);
+        this.cargando.set(false);
 
-    if (this.router.lastSuccessfulNavigation?.extras.state) {
-      const receivedData = this.router.lastSuccessfulNavigation?.extras.state;
-      console.log('Received data:', receivedData);
-      extrasData = receivedData as Libro;
-      this.libro.set(extrasData);
+        const genero = GENEROS_LITERARIOS.find(g => g.value === res?.generoLiterario);
+        this.generoLiterario.set(genero || null);
 
-      const genero = GENEROS_LITERARIOS.find(g => g.value === extrasData?.generoLiterario);
-      this.generoLiterario.set(genero || null);
+      } catch(e){
+        console.log("Hubo un error al leer el préstamo", e)
+      }
     }
   }
 

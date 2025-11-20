@@ -18,6 +18,7 @@
         <ul class="navbar-nav ms-auto align-items-lg-center">
           @if(esCliente() || !usuario()){
           <li class="nav-item"><a class="nav-link active" routerLink="/">Índice</a></li>
+          <li class="nav-item"><a class="nav-link active" routerLink="buscar">Búsqueda</a></li>
           }
           @if(esCliente()){
           <li class="nav-item"><a class="nav-link" routerLink="cliente/mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
