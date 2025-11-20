@@ -13,7 +13,7 @@ export type ReservarPrestamoRequest = {
 export type AceptarPrestamoRequest = {
   observacionesEntrega: string;
   lugarPrestamo: LugarPrestamo;
-  fechaEsperadaDeRetorno: string;
+  fechaEsperadaDeRetorno?: string;
 };
 
 export type RecibirPrestamoRequest = {

@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, effect, signal } from '@angular/core';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { PrestamosService } from '../../../services/cliente/prestamos-service';
 import { AuthState } from '../../../state/auth-state';
@@ -15,20 +15,40 @@ export class PrestamosDetailPage {
 
   prestamo = signal<Prestamo|null>(null);
 
+  path = signal('');
+
+  cargando = signal(true);
+
   constructor(
     private authState: AuthState,
     private prestamosService: PrestamosService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ){
-
+    effect(()=>{
+      const path = this.path(); 
+      if(path){
+        this.cargarPrestamo();
+      }
+    });
   }
 
   ngOnInit() {
-    if (this.router.lastSuccessfulNavigation?.extras.state) {
-      const receivedData = this.router.lastSuccessfulNavigation?.extras.state;
-      console.log('Received data:', receivedData);
+    this.route.url.subscribe(segments => {
+      this.path.set(segments[2].path);
+    });
+  }
 
-      this.prestamo.set(receivedData as Prestamo);
+  async cargarPrestamo(){
+    const id = parseInt(this.path());
+    if(id){
+      try {
+        const res = await lastValueFrom(this.prestamosService.detalle(id));
+        this.prestamo.set(res);
+        this.cargando.set(false);
+      } catch(e){
+        console.log("Hubo un error al leer el préstamo", e)
+      }
     }
   }
 
@@ -55,7 +75,7 @@ export class PrestamosDetailPage {
       const res = await lastValueFrom(this.prestamosService.marcarPerdido(id));
       if(res){
         alert("Préstamo marcado como perdido");
-        
+        this.cargarPrestamo();
       }
     } catch(e){
       console.log(e);

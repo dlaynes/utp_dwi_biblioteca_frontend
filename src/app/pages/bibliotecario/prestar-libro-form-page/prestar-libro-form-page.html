@@ -1,1 +1,46 @@
-<p>prestar-libro-form-page works!</p>
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h3>Prestar un libro reservado</h3>
+
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            {{errorMessage()}}
+          </div>
+        }
+
+        <div class="mb-3">
+            <strong>Libro:</strong> <a> {{prestamo()?.libro?.titulo}}</a><br>
+            <strong>Cliente:</strong> {{prestamo()?.cliente?.apellidos}}, {{prestamo()?.cliente?.nombres}}<br>
+        </div>
+
+
+        <form id="registerForm" class="mt-3" [formGroup]="form" (ngSubmit)="aceptarPrestamo()">
+
+          <div class="mb-3">
+            <label for="lugarPrestamo">Lugar de préstamo:</label>
+            <select class="form-select" name="lugarPrestamo" formControlName="lugarPrestamo">
+                @for(pr of LUGARES_PRESTAMO; track pr.value){
+                <option [value]="pr.value">{{pr.label}}</option>  
+                }
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Observaciones al momento de la de entrega</label>
+            <textarea name="observacionesEntrega" formControlName="observacionesEntrega" class="form-control" required></textarea>
+          </div>
+
+          <button class="btn btn-success" type="submit" [disabled]="!form.valid">
+            <i class="fa-solid fa-user-plus"></i> Enviar</button>
+        </form>
+      </div> 
+    </div> 
+
+    
+    <br />
+    <a [routerLink]="'/bibliotecario/prestamos/' + prestamo()?.id">Volver al detalle del préstamo</a>
+    <br />
+    <br />
+    <a routerLink="/bibliotecario/prestamos">Volver al listado de préstamos</a>
+  </main>

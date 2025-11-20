@@ -1,1 +1,48 @@
-<p>recibir-libro-form-page works!</p>
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h3>Recibir un libro prestado</h3>
+
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            {{errorMessage()}}
+          </div>
+        }
+
+        <div class="mb-3">
+            <strong>Libro:</strong> <a> {{prestamo()?.libro?.titulo}}</a><br>
+            <strong>Cliente:</strong> {{prestamo()?.cliente?.apellidos}}, {{prestamo()?.cliente?.nombres}}<br>
+            <strong>Fecha de préstamo:</strong> <a> {{prestamo()?.fechaPrestamo}}</a><br>
+            <strong>Fecha esperada de retorno:</strong> {{prestamo()?.fechaEsperadaRetorno}}<br>
+        </div>
+
+        <form id="registerForm" class="mt-3" [formGroup]="form" (ngSubmit)="recibirPrestamo()">
+
+          <div class="mb-3">
+            <label class="form-label">Observaciones al momento de recibir el libro</label>
+            <textarea name="observacionesRetorno" formControlName="observacionesRetorno" class="form-control" required></textarea>
+          </div>
+
+          <div class="mb-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="advertencia" name="advertencia">
+                <label class="form-check-label" for="advertencia">
+                ¿Generar una alerta?
+                </label>
+            </div>
+          </div>
+
+          <button class="btn btn-success" type="submit" [disabled]="!form.valid">
+            <i class="fa-solid fa-user-plus"></i> Enviar</button>
+        </form>
+      </div> 
+    </div> 
+
+    
+    <br />
+    <a [routerLink]="'/bibliotecario/prestamos/' + prestamo()?.id">Volver al detalle del préstamo</a>
+    <br />
+    <br />
+    <a routerLink="/bibliotecario/prestamos">Volver al listado de préstamos</a>
+  </main>
+

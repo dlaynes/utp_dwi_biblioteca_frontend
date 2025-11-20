@@ -6,6 +6,10 @@
         <h5>Datos del préstamo</h5>
 
         <div class="areas-grid mt-3">
+
+            @if(cargando()){
+                <div class="col-12 text-center py-5">Cargando...</div>
+            }
             @if(prestamo()){
                 <p>
                     <!-- TODO: enlace -->
@@ -36,7 +40,7 @@
                 <button (click)="cancelarReserva(prestamo()?.id || 0)" class="btn btn-warning">Cancelar reserva</button>
             }
             @if(prestamo()?.estadoPrestamo === "prestado" ){
-                <button (click)="recibirLibro(prestamo()?.id || 0)" class="btn btn-success">Prestar libro</button>
+                <button (click)="recibirLibro(prestamo()?.id || 0)" class="btn btn-success">Recibir libro</button>
                 <button (click)="marcarPerdido(prestamo()?.id || 0)" class="btn btn-dark">Marcar como perdido</button>
             }
 
