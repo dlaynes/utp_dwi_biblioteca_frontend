@@ -1,0 +1,19 @@
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h3>Detalle del comentario</h3>
+
+        <div class="mb-3">
+            <strong>Nombres:</strong> <a> {{comentario()?.nombre}}</a><br>
+            <strong>E-mail:</strong> {{comentario()?.correo}}<br>
+            <strong>Celular:</strong> <a> {{comentario()?.celular}}</a><br>
+            <strong>Fecha:</strong> {{comentario()?.fechaRegistro}}<br>
+            <strong>Mensaje:</strong> {{comentario()?.mensaje}}<br>
+        </div>
+
+      </div> 
+    </div> 
+
+    <br />
+    <a routerLink="/bibliotecario/comentarios">Volver al listado de comentarios</a>
+  </main>

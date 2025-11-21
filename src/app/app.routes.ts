@@ -26,6 +26,8 @@ import { PrestamosDetailPage } from './pages/bibliotecario/prestamos-detail-page
 import { PrestarLibroFormPage } from './pages/bibliotecario/prestar-libro-form-page/prestar-libro-form-page';
 import { RecibirLibroFormPage } from './pages/bibliotecario/recibir-libro-form-page/recibir-libro-form-page';
 import { BuscadorPage } from './pages/public/buscador-page/buscador-page';
+import { ComentariosPage } from './pages/bibliotecario/comentarios-page/comentarios-page';
+import { ComentariosDetailPage } from './pages/bibliotecario/comentarios-detail-page/comentarios-detail-page';
  
 export const routes: Routes = [
     {
@@ -128,6 +130,14 @@ export const routes: Routes = [
         path: 'bibliotecario/recibir-libro/:id',
         component: RecibirLibroFormPage,
         title: 'Recibir un libro prestado'
+    }, {
+        path: 'bibliotecario/comentarios',
+        component: ComentariosPage,
+        title: 'Listado de comentarios'
+    },{
+        path: 'bibliotecario/comentarios/:id',
+        component: ComentariosDetailPage,
+        title: 'Detalle de un comentario'
     }, {
         path: '*',
         component: NotFoundPage,

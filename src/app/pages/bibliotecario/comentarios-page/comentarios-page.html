@@ -1,0 +1,10 @@
+  <main class="container my-5" id="mantenimientoAutores">
+    <h3 class="section-title">Listado de comentarios</h3>
+
+    <div class="table-responsive">
+      <ag-grid-angular
+        [rowData]="comentarios()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
+    </div>
+  </main>

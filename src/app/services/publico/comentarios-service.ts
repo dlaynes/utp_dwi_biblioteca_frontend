@@ -17,11 +17,11 @@ export class ComentariosService {
   }
   
   lista(): Observable<Comentario[]> {
-    return this.http.get<Comentario[]>(BASE_URL+'publico/comentarios');
+    return this.http.get<Comentario[]>(BASE_URL+'bibliotecario/comentarios');
   }
 
   detalle(id: number): Observable<Comentario> {
-    return this.http.get<Comentario>(`${BASE_URL}/publico/comentarios/${id}`);
+    return this.http.get<Comentario>(`${BASE_URL}/bibliotecario/comentarios/${id}`);
   }
 
 }

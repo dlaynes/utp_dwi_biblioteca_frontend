@@ -17,13 +17,13 @@
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto align-items-lg-center">
           @if(esCliente() || !usuario()){
-          <li class="nav-item"><a class="nav-link active" routerLink="/">Índice</a></li>
-          <li class="nav-item"><a class="nav-link active" routerLink="buscar">Búsqueda</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/">Índice</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="buscar">Búsqueda</a></li>
           }
           @if(esCliente()){
           <li class="nav-item"><a class="nav-link" routerLink="cliente/mis-reservas"><i class="fa-solid fa-bookmark"></i> Reservas</a></li>
           } @else if (esBibliotecario()){
-            <li class="nav-item"><a class="nav-link active" routerLink="bibliotecario">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="bibliotecario">Dashboard</a></li>
           } @else if (esAdmin()){
             <li class="nav-item"><a class="nav-link" routerLink="admin">Dashboard</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="admin/usuarios">Usuarios</a></li>
@@ -37,6 +37,7 @@
               <li><a class="dropdown-item" routerLink="bibliotecario/libros">Libros</a></li>
               <li><a class="dropdown-item" routerLink="bibliotecario/editoriales">Editoriales</a></li>
               <li><a class="dropdown-item" routerLink="bibliotecario/autores">Autores</a></li>
+              <li><a class="dropdown-item" routerLink="bibliotecario/comentarios">Comentarios</a></li>
             </ul>
           </li>
           <li class="nav-item"><a class="nav-link" routerLink="bibliotecario/prestamos">Préstamos</a></li>
