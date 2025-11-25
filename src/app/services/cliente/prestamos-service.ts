@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Prestamo } from '../../domain/prestamo';
 import { Observable } from 'rxjs';
 import { LugarPrestamo } from '../../domain/lugar-prestamo';
+import { PagedQuery, PagedResponse } from '../utils/paged-query';
 
 export type ReservarPrestamoRequest = {
   lugarPrestamo: LugarPrestamo;
@@ -32,6 +33,10 @@ export class PrestamosService {
 
   lista(): Observable<Prestamo[]> {
     return this.http.get<Prestamo[]>(this.base);
+  }
+
+  buscar(query: PagedQuery): Observable<PagedResponse<Prestamo[]>> {
+    return this.http.get<PagedResponse<Prestamo[]>>(BASE_URL + 'bibliotecario/prestamos/busqueda' + query.build());
   }
 
   detalle(id: number): Observable<Prestamo> {

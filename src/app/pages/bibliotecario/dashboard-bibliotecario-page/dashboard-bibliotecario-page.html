@@ -1,27 +1,33 @@
   <main class="container my-5" id="biblioDashboard">
     <h3 class="section-title">Panel Bibliotecario</h3>
 
-    <div class="row mb-4">
-      <div class="col-md-6">
+    <div class="row admin-stats mb-4">
+      <div class="col-md-4">
         <div class="card p-3">
-          <div class="small text-muted">Usuarios con solicitudes activas</div>
-          <div class="stat-num" id="biblioUsersCount">—</div>
+          <div class="small text-muted">Total libros (copias)</div>
+          <div class="stat-num" id="totalBooks">{{stats()?.disponibles || '--'}}</div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="card p-3">
-          <div class="small text-muted">Reservas activas</div>
-          <div class="stat-num" id="biblioReservasCount">—</div>
+          <div class="small text-muted">Libros prestados (activos)</div>
+          <div class="stat-num" id="totalPrestados">{{stats()?.prestados || '--'}}</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <div class="small text-muted">Libros reservados</div>
+          <div class="stat-num" id="totalDisponibles">{{stats()?.reservados || '--'}}</div>
         </div>
       </div>
     </div>
 
-    <h5>Solicitudes activas</h5>
+    <h5 class="mb-3">Reservas recientes</h5>
     <div class="table-responsive">
-      <table class="table table-striped">
-        <thead><tr><th>Libro</th><th>Usuario</th><th>Prestado</th><th>Vence</th><th>Acción</th></tr></thead>
-        <tbody id="biblioReservaList"></tbody>
-      </table>
+      <ag-grid-angular
+        [rowData]="prestamos()"
+        [columnDefs]="colDefs"
+        [pagination]="true" />
     </div>
   </main>
 

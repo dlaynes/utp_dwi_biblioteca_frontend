@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export type BibliotecarioDashboardResponse = {
-
+  disponibles: number;
+  reservados: number;
+  prestados: number;
+  perdidos: number;
 };
 
 @Injectable({
