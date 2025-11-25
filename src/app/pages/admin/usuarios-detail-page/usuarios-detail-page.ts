@@ -125,6 +125,7 @@ export class UsuariosDetailPage implements OnInit {
       } else {
         const res = await lastValueFrom(this.usuarioService.actualizar(user.id,form as Usuario));    
         alert("El usuario ha sido actualizado!");
+        this.router.navigateByUrl('/admin/usuarios');
       } 
     } catch(e){
       console.log("Hubo un error al guardar el usuario", e);

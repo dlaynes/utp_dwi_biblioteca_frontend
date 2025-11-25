@@ -92,11 +92,11 @@ export class AutoresDetailPage {
       if(!data){
         const res = await lastValueFrom(this.autoresService.crear(form as Autor));
         alert("El autor ha sido creado!");
-        this.router.navigateByUrl('/biliotecario/autores');
+        this.router.navigateByUrl('/bibliotecario/autores');
       } else {
         const res = await lastValueFrom(this.autoresService.actualizar(data.id,form as Autor));    
         alert("El autor ha sido actualizado!");
-        this.router.navigateByUrl('/biliotecario/autores');
+        this.router.navigateByUrl('/bibliotecario/autores');
       } 
     } catch(e){
       console.log("Hubo un error al guardar el autor", e);
