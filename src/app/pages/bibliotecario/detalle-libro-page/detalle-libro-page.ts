@@ -58,13 +58,19 @@ export class DetalleLibroPage implements OnInit{
       const categorias = this.categorias();
       if(path && categorias){
         untracked(()=>{
-          this.cargarLibro(parseInt(path));
+          if(path === 'nuevo' || path === 'nueva'){
+            this.initForm(null, this.categorias());
+            this.cargando.set(false);
+          } else {
+            this.cargarLibro(parseInt(path));
+          }
         })
       }
     });
   }
 
   private async cargarLibro(id: number): Promise<void> {
+    
     if(id){
       try {
         const res = await lastValueFrom(this.libroService.detalle(id));
@@ -77,7 +83,7 @@ export class DetalleLibroPage implements OnInit{
     }
   }
 
-  initForm(lib: Libro, categorias: Categoria[]){
+  initForm(lib: Libro|null, categorias: Categoria[]){
     const currentCatIds = lib?.categoriaIds || [];
     const catBooleans = categorias?.map((categoria: Categoria) => currentCatIds.includes(categoria.id)) || [];
 

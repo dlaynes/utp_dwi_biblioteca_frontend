@@ -34,13 +34,18 @@ export class AutoresDetailPage {
       const path = this.path(); 
       if(path){
         untracked(()=>{
-          this.cargarAutor(parseInt(path));
+          if(path === 'nuevo' || path === 'nueva'){
+            this.initForm(null);
+            this.cargando.set(false);
+          } else {
+            this.cargarAutor(parseInt(path));
+          }
         })
       }
     });
   }
 
-  initForm(autor: Autor){
+  initForm(autor: Autor|null){
     this.form = this.fb.group({
       nombres: [autor?.nombres || '', Validators.required],
       apellidos: [autor?.apellidos || '', Validators.required],

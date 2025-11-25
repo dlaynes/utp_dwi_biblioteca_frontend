@@ -51,7 +51,12 @@ export class UsuariosDetailPage implements OnInit {
       const path = this.path(); 
       if(path){
         untracked(()=>{
-          this.cargarUsuario(parseInt(path));
+          if(path === 'nuevo' || path === 'nueva'){
+            this.initForm(null);
+            this.cargando.set(false);
+          } else {
+            this.cargarUsuario(parseInt(path));
+          }
         });
       }
     });
@@ -72,7 +77,7 @@ export class UsuariosDetailPage implements OnInit {
     }
   }
 
-  initForm(userData: Usuario){
+  initForm(userData: Usuario|null){
     const currentRoles = userData?.rolKeys || [];
     const userBooleans = ROLES.map((rol) => currentRoles.includes(rol.value)) || [];
     this.userForm = this.fb.group({

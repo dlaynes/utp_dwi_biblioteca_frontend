@@ -35,7 +35,12 @@ export class EditorialesDetailPage implements OnInit {
       const path = this.path(); 
       if(path){
         untracked(()=>{
-          this.cargarEditorial(parseInt(path));
+          if(path === 'nuevo' || path === 'nueva'){
+            this.initForm(null);
+            this.cargando.set(false);
+          } else {
+            this.cargarEditorial(parseInt(path));
+          }
         });
       }
     });
@@ -55,7 +60,7 @@ export class EditorialesDetailPage implements OnInit {
     this.initForm(res);
   }
 
-  initForm(editorial: Editorial){
+  initForm(editorial: Editorial|null){
     this.form = this.fb.group({
       nombre: [editorial?.nombre || '', Validators.required],
       ciudad: [editorial?.ciudad || '', Validators.required],
