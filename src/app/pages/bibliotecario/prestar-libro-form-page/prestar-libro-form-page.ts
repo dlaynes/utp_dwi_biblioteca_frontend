@@ -28,7 +28,6 @@ export class PrestarLibroFormPage {
   LUGARES_PRESTAMO = LUGARES_PRESTAMO;
 
   constructor(
-    private authState: AuthState,
     private prestamosService: PrestamosService,
     private router: Router,
     private fb: FormBuilder,

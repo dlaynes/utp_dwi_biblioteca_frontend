@@ -20,7 +20,6 @@ export class PrestamosDetailPage {
   cargando = signal(true);
 
   constructor(
-    private authState: AuthState,
     private prestamosService: PrestamosService,
     private router: Router,
     private route: ActivatedRoute
@@ -28,7 +27,7 @@ export class PrestamosDetailPage {
     effect(()=>{
       const path = this.path(); 
       if(path){
-        this.cargarPrestamo();
+        this.cargarPrestamo(parseInt(path));
       }
     });
   }
@@ -39,8 +38,7 @@ export class PrestamosDetailPage {
     });
   }
 
-  async cargarPrestamo(){
-    const id = parseInt(this.path());
+  async cargarPrestamo(id: number){
     if(id){
       try {
         const res = await lastValueFrom(this.prestamosService.detalle(id));
@@ -75,7 +73,7 @@ export class PrestamosDetailPage {
       const res = await lastValueFrom(this.prestamosService.marcarPerdido(id));
       if(res){
         alert("Préstamo marcado como perdido");
-        this.cargarPrestamo();
+        this.cargarPrestamo(id);
       }
     } catch(e){
       console.log(e);

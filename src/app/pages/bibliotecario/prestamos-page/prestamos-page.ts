@@ -66,7 +66,6 @@ export class PrestamosPage implements OnInit {
 
   constructor(
     private router: Router,
-    private authState: AuthState,
     private prestamosService: PrestamosService
   ){
 

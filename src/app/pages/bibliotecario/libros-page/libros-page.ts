@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal, effect } from '@angular/core';
+import { Component, signal, WritableSignal, effect, OnInit } from '@angular/core';
 import { Libro } from '../../../domain/libro';
 import { AuthState } from '../../../state/auth-state';
 
@@ -17,7 +17,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './libros-page.scss',
   standalone: true,
 })
-export class LibrosPage {
+export class LibrosPage implements OnInit {
 
   libros: WritableSignal<Libro[]> = signal([]);
 
@@ -36,16 +36,14 @@ export class LibrosPage {
   ];
 
   constructor(
-    private authState: AuthState,
     private libroService: LibrosService,
     private router: Router,
   ){
-    effect(()=>{
-      const token = this.authState.token();
-      if(!token) return;
 
-      this.cargarLibros();
-    });
+  }
+
+  ngOnInit(): void {
+    this.cargarLibros();
   }
 
   edit(id: number){

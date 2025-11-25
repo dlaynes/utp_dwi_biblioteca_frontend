@@ -48,7 +48,7 @@ export class DetalleLibroPage implements OnInit {
     effect(()=>{
       const path = this.path(); 
       if(path){
-        this.cargarLibro();
+        this.cargarLibro(parseInt(path));
       }
     });
   }
@@ -63,8 +63,7 @@ export class DetalleLibroPage implements OnInit {
     });
   }
 
-  private async cargarLibro(): Promise<void> {
-    const id = parseInt(this.path());
+  private async cargarLibro(id: number): Promise<void> {
     if(id){
       try {
         const res = await lastValueFrom(this.libroService.detalle(id));

@@ -1,26 +1,34 @@
 <!-- TODO: reemplazar por button group de Bootstrap -->
 <nav class="pagination-container">
   @if(totalPages > 1){
-    <ul class="pagination-list">
+  <ul class="pagination-list">
+      
       <li class="page-item" [class.disabled]="currentPage === 1">
         <button (click)="selectPage(currentPage - 1)" [disabled]="currentPage === 1">
           &laquo;
         </button>
       </li>
-      @for(page of pages; track page){
-          <li class="page-item">
-            <button 
-              (click)="selectPage(page)"
-              [class.active]="page === currentPage">
-              {{ page }}
-            </button>
-          </li>
+      @for(page of pages; track $index){
+      <li class="page-item">
+        @if(page !== '...'){
+          <button 
+            (click)="selectPage(page)"
+            [class.active]="page === currentPage">
+            {{ page }}
+          </button>
+        } @else {
+          <span  class="dots">
+            &hellip;
+          </span>
+        }
+        </li>
       }
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <button (click)="selectPage(currentPage + 1)" [disabled]="currentPage === totalPages">
           &raquo;
         </button>
       </li>
+
     </ul>
   }
 </nav>

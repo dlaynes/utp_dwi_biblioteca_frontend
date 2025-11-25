@@ -1,8 +1,8 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, effect, OnInit, signal, untracked, WritableSignal } from '@angular/core';
 import { EditorialesService } from '../../../services/bibliotecario/editoriales-service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Editorial } from '../../../domain/editorial';
 import { lastValueFrom } from 'rxjs';
 
@@ -21,30 +21,46 @@ export class EditorialesDetailPage implements OnInit {
 
   form!: FormGroup;
 
+  cargando = signal(true);
+
+  path = signal('');
+
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private editorialService: EditorialesService,
     private router: Router,
+    private route: ActivatedRoute
   ) {
-
+    effect(()=>{
+      const path = this.path(); 
+      if(path){
+        untracked(()=>{
+          this.cargarEditorial(parseInt(path));
+        });
+      }
+    });
   }
   ngOnInit(): void {
-    let extrasData : Editorial|null = null;
-
-    if (this.router.lastSuccessfulNavigation?.extras.state) {
-      const receivedData = this.router.lastSuccessfulNavigation?.extras.state;
-      console.log('Received data:', receivedData);
-      extrasData = receivedData as Editorial;
-      this.editorial.set(extrasData);
-    }
-
-    this.form = this.fb.group({
-      nombre: [extrasData?.nombre || '', Validators.required],
-      ciudad: [extrasData?.ciudad || '', Validators.required],
-      pais: [extrasData?.pais || '', Validators.required]
+    this.route.url.subscribe(segments => {
+      this.path.set(segments[2].path);
     });
+  }
 
+  async cargarEditorial(id: number){
+    if(!id) return;
+    this.cargando.set(true);
+    const res = await lastValueFrom(this.editorialService.detalle(id));
+    this.editorial.set(res);
+    this.cargando.set(false);
+    this.initForm(res);
+  }
+
+  initForm(editorial: Editorial){
+    this.form = this.fb.group({
+      nombre: [editorial?.nombre || '', Validators.required],
+      ciudad: [editorial?.ciudad || '', Validators.required],
+      pais: [editorial?.pais || '', Validators.required]
+    });
   }
 
   async onSubmit() {
@@ -68,6 +84,7 @@ export class EditorialesDetailPage implements OnInit {
       } else {
         const res = await lastValueFrom(this.editorialService.actualizar(user.id,form as Editorial));    
         alert("La editorial ha sido actualizada!");
+        this.router.navigateByUrl('/biliotecario/editoriales');
       } 
     } catch(e){
       console.log("Hubo un error al guardar la editorial", e);

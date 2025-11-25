@@ -1,7 +1,9 @@
-import { Component, effect, untracked } from '@angular/core';
+import { Component, effect, OnInit, untracked } from '@angular/core';
 import { AuthState } from '../../../state/auth-state';
 import { PerfilService } from '../../../services/cliente/perfil-service';
 import { lastValueFrom } from 'rxjs';
+import { DashboardService } from '../../../services/bibliotecario/dashboard-service';
+import { PrestamosService } from '../../../services/cliente/prestamos-service';
 
 @Component({
   selector: 'app-dashboard-bibliotecario-page',
@@ -10,12 +12,13 @@ import { lastValueFrom } from 'rxjs';
   styleUrl: './dashboard-bibliotecario-page.scss',
   standalone: true,
 })
-export class DashboardBibliotecarioPage {
+export class DashboardBibliotecarioPage implements OnInit {
 
   constructor(
     private authState: AuthState,
     private perfilService: PerfilService, 
-
+    private dashboardService: DashboardService,
+    private prestamosService: PrestamosService,
   ){
     effect(()=>{
       const token = this.authState.token();
@@ -34,6 +37,15 @@ export class DashboardBibliotecarioPage {
         }
       });
     });
+  }
+
+  ngOnInit(): void {
+    if(this.authState.token()){
+      this.cargarDashboard();
+    }
+  }
+
+  async cargarDashboard(){
 
   }
 

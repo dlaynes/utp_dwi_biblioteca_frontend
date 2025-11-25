@@ -1,4 +1,4 @@
-import { Component, effect, signal, WritableSignal } from '@angular/core';
+import { Component, effect, OnInit, signal, WritableSignal } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import type { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
@@ -16,7 +16,7 @@ import { AutoresService } from '../../../services/bibliotecario/autores-service'
   styleUrl: './autores-page.scss',
   standalone: true,
 })
-export class AutoresPage {
+export class AutoresPage implements OnInit {
 
   autores: WritableSignal<Autor[]> = signal([]);
 
@@ -35,17 +35,12 @@ export class AutoresPage {
 
   constructor(
     private router: Router,
-    private authState: AuthState,
     private autoresService: AutoresService,
   ){
-    effect(()=>{
-      // El effect se ejecutará cuando el token cambie.
-      const token = this.authState.token();
-      if(!token) return;
 
-      // Llamamos a un método asíncrono para cargar los datos.
-      this.cargar();
-    });
+  }
+  ngOnInit(): void {
+    this.cargar();
   }
   
   edit(id: number){

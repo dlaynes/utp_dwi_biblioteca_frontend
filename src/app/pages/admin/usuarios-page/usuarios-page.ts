@@ -1,4 +1,4 @@
-import { Component, effect, signal, WritableSignal } from '@angular/core';
+import { Component, effect, OnInit, signal, WritableSignal } from '@angular/core';
 import { UsuariosService } from '../../../services/admin/usuarios-service';
 import { Usuario } from '../../../domain/usuario';
 
@@ -17,7 +17,7 @@ import { RolesCell } from '../../../components/roles-cell/roles-cell';
   styleUrl: './usuarios-page.scss',
   standalone: true,
 })
-export class UsuariosPage {
+export class UsuariosPage implements OnInit {
 
   // Usamos un signal para mantener el estado de los usuarios.
   usuarios: WritableSignal<Usuario[]> = signal([]);
@@ -40,17 +40,13 @@ export class UsuariosPage {
 
   constructor(
     private router: Router,
-    private authState: AuthState,
     private usuarioService: UsuariosService,
   ){
-    effect(()=>{
-      // El effect se ejecutará cuando el token cambie.
-      const token = this.authState.token();
-      if(!token) return;
 
-      // Llamamos a un método asíncrono para cargar los datos.
-      this.cargarUsuarios();
-    });
+  }
+
+  ngOnInit(): void {
+    this.cargarUsuarios();
   }
 
   edit(id: number){

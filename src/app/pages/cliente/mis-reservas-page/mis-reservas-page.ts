@@ -1,4 +1,4 @@
-import { Component, effect, signal, untracked } from '@angular/core';
+import { Component, effect, OnInit, signal, untracked } from '@angular/core';
 import { AuthState } from '../../../state/auth-state';
 import { PerfilService } from '../../../services/cliente/perfil-service';
 import { lastValueFrom } from 'rxjs';
@@ -25,7 +25,7 @@ LUGARES_PRESTAMO.forEach(it => {
   styleUrl: './mis-reservas-page.scss',
   standalone: true,
 })
-export class MisReservasPage {
+export class MisReservasPage implements OnInit {
 
   prestamos = signal<Prestamo[]>([]);
 
@@ -46,15 +46,14 @@ export class MisReservasPage {
       if(!token){
         return;
       }
+      // Debido a que es una página de entrada al momento de iniciar sesión, se deben contemplar todos los casos
       untracked(async ()=>{
         try {
           const res = await lastValueFrom(this.perfilService.misDatos());
-          await this.cargarPrestamos();
-          this.cargando.set(false);
           if(res?.id) {
             this.authState.setUsuario(res);
+            this.cargarPrestamos();
           }
-
         } catch(e: any){
           console.log(e?.message);
         }
@@ -62,9 +61,17 @@ export class MisReservasPage {
     });
   }
 
+  ngOnInit(): void {
+    if(this.authState.token()){
+      this.cargarPrestamos();
+    }
+  }
+  
   async cargarPrestamos(){
+    this.cargando.set(true);
     const prestamos = await lastValueFrom(this.prestamosService.misPrestamos());
     this.prestamos.set(prestamos);
+    this.cargando.set(false);
   }
 
   async cancelarReserva(id: number){

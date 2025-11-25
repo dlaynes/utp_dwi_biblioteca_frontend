@@ -1,8 +1,8 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, effect, signal, untracked, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { Autor } from '../../../domain/autor';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth-service';
 import { AutoresService } from '../../../services/bibliotecario/autores-service';
 
@@ -20,31 +20,54 @@ export class AutoresDetailPage {
 
   form!: FormGroup;
 
+  path = signal('');
+
+  cargando = signal(true);
+
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private route: ActivatedRoute,
     private autoresService: AutoresService,
     private router: Router,
   ) {
-
-  }
-  ngOnInit(): void {
-    let extrasData : Autor|null = null;
-
-    if (this.router.lastSuccessfulNavigation?.extras.state) {
-      const receivedData = this.router.lastSuccessfulNavigation?.extras.state;
-      console.log('Received data:', receivedData);
-      extrasData = receivedData as Autor;
-      this.autor.set(extrasData);
-    }
-
-    this.form = this.fb.group({
-      nombres: [extrasData?.nombres || '', Validators.required],
-      apellidos: [extrasData?.apellidos || '', Validators.required],
-      nacionalidad: [extrasData?.nacionalidad || '', Validators.required],
-      comentarios: [extrasData?.comentarios || '', Validators.required],
+    effect(()=>{
+      const path = this.path(); 
+      if(path){
+        untracked(()=>{
+          this.cargarAutor(parseInt(path));
+        })
+      }
     });
+  }
 
+  initForm(autor: Autor){
+    this.form = this.fb.group({
+      nombres: [autor?.nombres || '', Validators.required],
+      apellidos: [autor?.apellidos || '', Validators.required],
+      nacionalidad: [autor?.nacionalidad || '', Validators.required],
+      comentarios: [autor?.comentarios || '', Validators.required],
+    });
+  }
+
+  
+  ngOnInit(): void {
+    this.route.url.subscribe(segments => {
+      this.path.set(segments[2].path);
+    });
+  }
+
+  private async cargarAutor(id: number): Promise<void> {
+    if(id){
+      try {
+        const res = await lastValueFrom(this.autoresService.detalle(id));
+        this.autor.set(res);
+        this.cargando.set(false);
+        this.initForm(res);
+
+      } catch(e){
+        console.log("Hubo un error al leer el autor", e)
+      }
+    }
   }
 
   async onSubmit() {
@@ -68,6 +91,7 @@ export class AutoresDetailPage {
       } else {
         const res = await lastValueFrom(this.autoresService.actualizar(data.id,form as Autor));    
         alert("El autor ha sido actualizado!");
+        this.router.navigateByUrl('/biliotecario/autores');
       } 
     } catch(e){
       console.log("Hubo un error al guardar el autor", e);

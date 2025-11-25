@@ -1,5 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnInit, effect, inject, signal, untracked } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthState } from '../../../state/auth-state';
 import { LibrosService } from '../../../services/publico/libros-service';
 import { AutoresService } from '../../../services/bibliotecario/autores-service';
@@ -28,8 +28,6 @@ export class DetalleLibroPage implements OnInit{
 
   private router = inject(Router);
 
-  isLoading = signal(true);
-
   libro = signal<Libro|null>(null);
 
   autores = signal<Autor[]>([]);
@@ -41,31 +39,74 @@ export class DetalleLibroPage implements OnInit{
   idiomas = signal<Idioma[]>([]);
 
   detalleLibroForm: FormGroup<any>|null = null;
+  
+  path = signal('');
+
+  cargando = signal(true);
 
   constructor(
-    private authState: AuthState,
     private libroService: LibrosService,
     private categoriaService: CategoriasService,
     private fb: FormBuilder,
     private autorService: AutoresService,
     private editorialService: EditorialesService,
     private idiomaService: IdiomasService,
+    private route: ActivatedRoute
   ){
+    effect(()=>{
+      const path = this.path();
+      const categorias = this.categorias();
+      if(path && categorias){
+        untracked(()=>{
+          this.cargarLibro(parseInt(path));
+        })
+      }
+    });
+  }
 
+  private async cargarLibro(id: number): Promise<void> {
+    if(id){
+      try {
+        const res = await lastValueFrom(this.libroService.detalle(id));
+        this.libro.set(res);
+        this.cargando.set(false);
+        this.initForm(res, this.categorias());
+      } catch(e){
+        console.log("Hubo un error al leer el préstamo", e)
+      }
+    }
+  }
+
+  initForm(lib: Libro, categorias: Categoria[]){
+    const currentCatIds = lib?.categoriaIds || [];
+    const catBooleans = categorias?.map((categoria: Categoria) => currentCatIds.includes(categoria.id)) || [];
+
+    this.detalleLibroForm = this.fb.group({
+      titulo: [lib?.titulo || ''],
+      autorId: [lib?.autor?.id || ''],
+      editorialId: [lib?.editorial?.id || ''],
+      idiomaId: [lib?.idioma?.id || ''],
+      publicadoEn: [lib?.publicadoEn || ''],
+      ibsm: [lib?.ibsm || ''],
+      nacionalidad: [lib?.nacionalidad || ''],
+      paginas: [lib?.paginas || ''],
+      generoLiterario: [lib?.generoLiterario || ''],
+      disponibles: [lib?.disponibles || 0],
+      reservados: [lib?.reservados || 0, {disabled: true}],
+      perdidos: [lib?.perdidos || 0, {disabled: true}],
+      prestados: [lib?.prestados || 0, {disabled: true}],
+      categoriaIds: this.fb.array(catBooleans)
+    });
   }
 
   ngOnInit() {
-    if (this.router.lastSuccessfulNavigation?.extras.state) {
-      const receivedData = this.router.lastSuccessfulNavigation?.extras.state;
-      console.log('Received data:', receivedData);
-
-      this.libro.set(receivedData as Libro);
-    }
-    // TODO: si no hay libro y existe un id, cargarlo
+    this.route.url.subscribe(segments => {
+      this.path.set(segments[2].path);
+    });
     this.obtenerRecursos();
   }
 
-  async obtenerRecursos(){
+  async obtenerRecursos(lib = this.libro()){
     const autores = lastValueFrom(this.autorService.lista());
     const editoriales = lastValueFrom(this.editorialService.lista());
     const idiomas = lastValueFrom(this.idiomaService.lista());
@@ -77,35 +118,11 @@ export class DetalleLibroPage implements OnInit{
       this.autores.set(autoresRes);
       this.editoriales.set(editorialesRes); 
       this.idiomas.set(idiomasRes);
-      this.categorias.update(() => categoriaRes);
-
-      const lib = this.libro();
-
-      const currentCatIds = lib?.categoriaIds || [];
-      const catBooleans = categoriaRes?.map((categoria: Categoria) => currentCatIds.includes(categoria.id)) || [];
-
-      this.detalleLibroForm = this.fb.group({
-        titulo: [lib?.titulo || ''],
-        autorId: [lib?.autor?.id || ''],
-        editorialId: [lib?.editorial?.id || ''],
-        idiomaId: [lib?.idioma?.id || ''],
-        publicadoEn: [lib?.publicadoEn || ''],
-        ibsm: [lib?.ibsm || ''],
-        nacionalidad: [lib?.nacionalidad || ''],
-        paginas: [lib?.paginas || ''],
-        generoLiterario: [lib?.generoLiterario || ''],
-        disponibles: [lib?.disponibles || 0],
-        reservados: [lib?.reservados || 0, {disabled: true}],
-        perdidos: [lib?.perdidos || 0, {disabled: true}],
-        prestados: [lib?.prestados || 0, {disabled: true}],
-        categoriaIds: this.fb.array(catBooleans)
-      });
+      this.categorias.set(categoriaRes);
 
     } catch(e){
       console.log(e);
     }
-    this.isLoading.set(false);
-
   }
 
   submit(){

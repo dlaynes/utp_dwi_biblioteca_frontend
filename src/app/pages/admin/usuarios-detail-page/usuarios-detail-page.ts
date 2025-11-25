@@ -1,10 +1,10 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, effect, OnInit, signal, untracked, WritableSignal } from '@angular/core';
 import { TIPOS_DOCUMENTO } from '../../../domain/tipo-documento';
 import { GENEROS } from '../../../domain/genero';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ESTADOS_CIVILES } from '../../../domain/estado-civil';
 import { AuthService } from '../../../services/auth-service';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { mustMatch } from '../../../validators/must-match';
 import { Usuario } from '../../../domain/usuario';
 import { lastValueFrom } from 'rxjs';
@@ -25,6 +25,10 @@ export class UsuariosDetailPage implements OnInit {
 
   usuario = signal<Usuario|null>(null);
   
+  path = signal('');
+
+  cargando = signal(true);
+
   userForm!: FormGroup;
 
   TIPOS_DOCUMENTO = TIPOS_DOCUMENTO;
@@ -39,30 +43,38 @@ export class UsuariosDetailPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private usuarioService: UsuariosService,
     private router: Router,
+    private route: ActivatedRoute
   ) {
-
+    effect(()=>{
+      const path = this.path(); 
+      if(path){
+        untracked(()=>{
+          this.cargarUsuario(parseInt(path));
+        });
+      }
+    });
   }
 
   ngOnInit() {
+    this.route.url.subscribe(segments => {
+      this.path.set(segments[2].path);
+    });
+  }
 
-    let userData : Usuario|null = null;
-
-    if (this.router.lastSuccessfulNavigation?.extras.state) {
-      const receivedData = this.router.lastSuccessfulNavigation?.extras.state;
-      console.log('Received data:', receivedData);
-      userData = receivedData as Usuario;
-      this.usuario.set(userData);
+  async cargarUsuario(id: number){
+    const res = await lastValueFrom(this.usuarioService.detalle(id));
+    this.cargando.set(false);
+    if(res){
+      this.usuario.set(res);
+      this.initForm(res);
     }
+  }
 
+  initForm(userData: Usuario){
     const currentRoles = userData?.rolKeys || [];
     const userBooleans = ROLES.map((rol) => currentRoles.includes(rol.value)) || [];
-
-
-    // TODO: obtener el usuario si hay un id, y no se han recuperado datos
-
     this.userForm = this.fb.group({
       nombres: [userData?.nombres || '', Validators.required],
       apellidos: [userData?.apellidos || '', Validators.required],

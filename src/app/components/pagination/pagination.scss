@@ -12,6 +12,17 @@
 }
 
 .page-item {
+  display: flex;
+  align-items: center;
+
+  /* Estilo para los puntos suspensivos */
+  .dots {
+    padding: 8px 12px;
+    color: #6c757d;
+    font-weight: bold;
+    user-select: none; /* Evita que se seleccione el texto */
+  }
+
   button {
     border: 1px solid #ddd;
     background-color: white;
